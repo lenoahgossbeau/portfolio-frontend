@@ -1,7 +1,17 @@
-import { Subscription } from "./types";
 import { useLanguage } from '@/hooks/useLanguage';
 import { t } from '@/locales/translations';
 import { useState } from 'react';
+
+// Type local pour éviter les conflits
+type Subscription = {
+  id: string | number;
+  profile_id: string | number;
+  start_date: string;
+  end_date: string;
+  type: string;
+  payment_method: string;
+  amount?: number;
+};
 
 type Props = {
   subscriptions: Subscription[];
@@ -13,25 +23,13 @@ export default function SubscriptionTable({ subscriptions }: Props) {
   const [filterStartDate, setFilterStartDate] = useState('');
   const [filterEndDate, setFilterEndDate] = useState('');
 
-  // Types uniques pour le filtre
   const uniqueTypes = [...new Set(subscriptions.map(s => s.type))];
 
-  // Application des filtres
   const filteredSubscriptions = subscriptions.filter(sub => {
     let match = true;
-    
-    if (filterType && sub.type !== filterType) {
-      match = false;
-    }
-    
-    if (filterStartDate && sub.start_date < filterStartDate) {
-      match = false;
-    }
-    
-    if (filterEndDate && sub.end_date > filterEndDate) {
-      match = false;
-    }
-    
+    if (filterType && sub.type !== filterType) match = false;
+    if (filterStartDate && sub.start_date < filterStartDate) match = false;
+    if (filterEndDate && sub.end_date > filterEndDate) match = false;
     return match;
   });
 
@@ -47,7 +45,6 @@ export default function SubscriptionTable({ subscriptions }: Props) {
 
   return (
     <div>
-      {/* Barre de filtres */}
       <div className="bg-gray-50 p-4 rounded-lg mb-6 flex flex-wrap gap-4 items-end">
         <div>
           <label className="block text-sm text-gray-600 mb-1">{t('type', language)}</label>
@@ -91,7 +88,6 @@ export default function SubscriptionTable({ subscriptions }: Props) {
         </button>
       </div>
 
-      {/* Tableau */}
       <div className="bg-white border border-gray-200 rounded-xl shadow overflow-hidden">
         <table className="w-full text-sm">
           <thead className="border-b border-[#ADADAD]">
@@ -127,7 +123,6 @@ export default function SubscriptionTable({ subscriptions }: Props) {
         </table>
       </div>
       
-      {/* Compteur */}
       <div className="text-sm text-gray-500 mt-4 text-center">
         {filteredSubscriptions.length} / {subscriptions.length} {t('subscriptions', language)}
       </div>
