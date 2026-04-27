@@ -98,10 +98,10 @@ const AdminDashboard: React.FC = ({ admin = false }:{ admin?: boolean}) => {
         return (
           <div className="mt-10 text-center text-gray-600 text-lg">
             <div className="flex justify-center gap-10 mt-8">
-              <DonutChart percentage={stats.total > 0 ? 100 : 0} admin={true} label={t('total', language)} value={stats.total} />
-              <DonutChart percentage={stats.total > 0 ? (stats.active / stats.total) * 100 : 0} admin={true} label={t('active', language)} value={stats.active} />
-              <DonutChart percentage={stats.total > 0 ? (stats.inactive / stats.total) * 100 : 0} admin={true} label={t('inactive', language)} value={stats.inactive} />
-              <DonutChart percentage={stats.total > 0 ? (stats.newUsers / stats.total) * 100 : 0} admin={true} label={t('new', language)} value={stats.newUsers} />
+              <DonutChart percentage={stats.total > 0 ? 100 : 0} admin={true} label={t('total', language)} />
+              <DonutChart percentage={stats.total > 0 ? (stats.active / stats.total) * 100 : 0} admin={true} label={t('active', language)} />
+              <DonutChart percentage={stats.total > 0 ? (stats.inactive / stats.total) * 100 : 0} admin={true} label={t('inactive', language)} />
+              <DonutChart percentage={stats.total > 0 ? (stats.newUsers / stats.total) * 100 : 0} admin={true} label={t('new', language)} />
             </div>
             
             <div className="flex justify-between items-center mt-12 mb-6">
