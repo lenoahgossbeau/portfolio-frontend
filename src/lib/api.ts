@@ -1,4 +1,9 @@
-export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:8000';
+// Utiliser l'URL de production si on est sur Render
+const isProduction = process.env.NODE_ENV === 'production';
+const PROD_API_URL = 'https://portfolio-api-3886.onrender.com';
+const DEV_API_URL = 'http://localhost:8000';
+
+export const API_BASE_URL = process.env.NEXT_PUBLIC_API_URL || (isProduction ? PROD_API_URL : DEV_API_URL);
 
 export const API_ENDPOINTS = {
   publications: `${API_BASE_URL}/publications/publications/`,
@@ -6,7 +11,7 @@ export const API_ENDPOINTS = {
   distinctions: `${API_BASE_URL}/distinctions`,
   academic_career: `${API_BASE_URL}/academic-career`,
   subscriptions: `${API_BASE_URL}/subscriptions/`,
-  adminSubscriptions: `${API_BASE_URL}/admin/subscriptions/`,  // ← NOUVEAU : pour l'admin
+  adminSubscriptions: `${API_BASE_URL}/admin/subscriptions/`,
   login: `${API_BASE_URL}/auth/login`,
   register: `${API_BASE_URL}/auth/register`,
   logout: `${API_BASE_URL}/auth/logout`,
@@ -14,6 +19,7 @@ export const API_ENDPOINTS = {
   lang: (lang: string) => `${API_BASE_URL}/lang/${lang}`,
   health: `${API_BASE_URL}/health`,
   info: `${API_BASE_URL}/api/info`,
+  profile: `${API_BASE_URL}/profiles`,
 };
 
 export async function fetchWithAuth(endpoint: string, options: RequestInit = {}) {
