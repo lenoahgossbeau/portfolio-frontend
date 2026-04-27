@@ -9,11 +9,22 @@ import SubscriptionActions from "./SubActions";
 import SubscriptionTable from "./SubscriptionTable";
 import ExportPDF from "./ExportPDF";
 import Notifications from "./Notifications";
-import { fetchUsers, fetchSubscriptions, User, Subscription } from "@/lib/adminApi";
+import { fetchUsers, fetchSubscriptions, User } from "@/lib/adminApi";
 import { useLanguage } from '@/hooks/useLanguage';
 import { t } from '@/locales/translations';
 import dynamic from 'next/dynamic';
 import { useDebounce } from '@/hooks/useDebounce';
+
+// Type local pour Subscription (évite les conflits)
+type LocalSubscription = {
+  id: string | number;
+  profile_id: string | number;
+  start_date: string;
+  end_date: string;
+  type: string;
+  payment_method: string;
+  amount?: number;
+};
 
 // Lazy loading des composants de graphiques
 const RevenueChart = dynamic(() => import('./RevenueChart'), { 
@@ -34,7 +45,7 @@ const AdminDashboard: React.FC = ({ admin = false }:{ admin?: boolean}) => {
   const [activeTab, setActiveTab] = useState<string>("accounts");
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState<User[]>([]);
-  const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
+  const [subscriptions, setSubscriptions] = useState<LocalSubscription[]>([]);
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounce(search, 500);
   const router = useRouter();
@@ -46,7 +57,7 @@ const AdminDashboard: React.FC = ({ admin = false }:{ admin?: boolean}) => {
         const usersData = await fetchUsers();
         const subsData = await fetchSubscriptions();
         setUsers(usersData);
-        setSubscriptions(subsData);
+        setSubscriptions(subsData as LocalSubscription[]);
       } catch (error) {
         console.error('Erreur chargement données admin:', error);
       } finally {
