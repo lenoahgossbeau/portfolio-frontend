@@ -10,7 +10,7 @@ export default function AdminDashboardPage() {
   return (
     <div key={language}>
       <Navbar admin={true} />
-      <AdminDashboard admin={true} />
+      <AdminDashboard />
     </div>
   );
 }
