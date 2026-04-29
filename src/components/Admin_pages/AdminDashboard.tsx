@@ -9,13 +9,15 @@ import SubscriptionActions from "./SubActions";
 import SubscriptionTable from "./SubscriptionTable";
 import ExportPDF from "./ExportPDF";
 import Notifications from "./Notifications";
+import UserManagement from "./user/UserManagement";
+import CreateSubscription from "./subscriptions/CreateSubscription";
 import { fetchUsers, fetchSubscriptions, User } from "@/lib/adminApi";
 import { useLanguage } from '@/hooks/useLanguage';
 import { t } from '@/locales/translations';
 import dynamic from 'next/dynamic';
 import { useDebounce } from '@/hooks/useDebounce';
 
-// Type local pour Subscription (évite les conflits)
+// Type local pour Subscription
 type LocalSubscription = {
   id: string | number;
   profile_id: string | number;
@@ -50,16 +52,27 @@ const AdminDashboard: React.FC = ({ admin = false }:{ admin?: boolean}) => {
   const debouncedSearch = useDebounce(search, 500);
   const router = useRouter();
 
+  const refreshSubscriptions = async () => {
+    try {
+      const subsData = await fetchSubscriptions();
+      setSubscriptions(Array.isArray(subsData) ? subsData as LocalSubscription[] : []);
+    } catch (error) {
+      console.error('Erreur refresh abonnements:', error);
+    }
+  };
+
   useEffect(() => {
     const loadData = async () => {
       setLoading(true);
       try {
         const usersData = await fetchUsers();
         const subsData = await fetchSubscriptions();
-        setUsers(usersData);
-        setSubscriptions(subsData as LocalSubscription[]);
+        setUsers(Array.isArray(usersData) ? usersData : []);
+        setSubscriptions(Array.isArray(subsData) ? subsData as LocalSubscription[] : []);
       } catch (error) {
         console.error('Erreur chargement données admin:', error);
+        setUsers([]);
+        setSubscriptions([]);
       } finally {
         setLoading(false);
       }
@@ -128,11 +141,15 @@ const AdminDashboard: React.FC = ({ admin = false }:{ admin?: boolean}) => {
               </div>
               <button 
                 type="button"
-                onClick={() => router.push("/researcher/dashboard")}  
+                onClick={() => router.push("/auth/register")}  // ✅ CORRIGÉ ICI
                 className="flex items-center gap-2 bg-[#003F7F] text-white px-4 py-2 rounded-lg text-sm"
               >
                 + {t('create', language)}
               </button>
+            </div>
+
+            <div className="mt-10 mb-12">
+              <UserManagement />
             </div>
 
             {filteredAccounts.length === 0 ? (
@@ -152,12 +169,15 @@ const AdminDashboard: React.FC = ({ admin = false }:{ admin?: boolean}) => {
           <div className="mt-10 text-center text-gray-600 text-lg">
             <div className="space-y-6">
               <SubscriptionStats stats={subStats} />
-              <div className="flex justify-end gap-3">
-                <ExportPDF subscriptions={subscriptions} />
-                <SubscriptionActions subscriptions={subscriptions} />
+              <div className="flex justify-between items-center mb-6">
+                <CreateSubscription onSubscriptionCreated={refreshSubscriptions} />
+                <div className="flex gap-3">
+                  <ExportPDF subscriptions={subscriptions} />
+                  <SubscriptionActions subscriptions={subscriptions} />
+                </div>
               </div>
-              <SubscriptionTable subscriptions={subscriptions} />
-              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6">
+              <SubscriptionTable subscriptions={subscriptions} onSubscriptionUpdated={refreshSubscriptions} />
+              <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 mt-6">
                 <RevenueChart subscriptions={subscriptions} />
                 <SubscriptionPieChart subscriptions={subscriptions} />
               </div>

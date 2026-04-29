@@ -1,8 +1,13 @@
 'use client';
 import { useLanguage } from '@/hooks/useLanguage';
 import { t } from '@/locales/translations';
+import toast from 'react-hot-toast';
 
-export default function SubscriptionActions({ subscriptions }: any) {
+type Props = {
+  subscriptions: any[];
+};
+
+export default function SubscriptionActions({ subscriptions }: Props) {
   const { language } = useLanguage();
 
   const exportCSV = () => {
@@ -12,18 +17,18 @@ export default function SubscriptionActions({ subscriptions }: any) {
     console.log("longueur:", subscriptions?.length);
     
     if (!subscriptions || subscriptions.length === 0) {
-      alert("Aucune donnée à exporter (tableau vide)");
+      toast.error(t('no_data_to_export', language));
       return;
     }
 
     try {
       const headers = [
-        'ID',
-        'ID Profil', 
-        'Date début',
-        'Date fin',
-        'Type',
-        'Moyen de paiement'
+        t('id', language),
+        t('profile_id', language),
+        t('start_date', language),
+        t('end_date', language),
+        t('type', language),
+        t('payment_method', language)
       ];
 
       const rows = subscriptions.map((s: any) => [
@@ -51,11 +56,11 @@ export default function SubscriptionActions({ subscriptions }: any) {
       URL.revokeObjectURL(url);
       
       console.log("CSV exporté avec succès !");
-      alert("Export CSV réussi !");
+      toast.success(t('export_csv_success', language));  // ← MODIFIÉ ICI
       
     } catch (err) {
       console.error("Erreur:", err);
-      alert("Erreur: " + err);
+      toast.error(t('export_error', language));
     }
   };
 

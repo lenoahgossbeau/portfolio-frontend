@@ -1,4 +1,4 @@
-import { API_ENDPOINTS, fetchWithAuth } from './api';
+import { API_ENDPOINTS, fetchWithAuth, API_BASE_URL } from './api';
 
 export async function fetchPublications() {
   const res = await fetchWithAuth(API_ENDPOINTS.publications);
@@ -36,9 +36,9 @@ export async function fetchSubscriptions() {
   return res.json();
 }
 
-// NOUVEAU : Fonction pour envoyer un message de contact
+// Fonction pour envoyer un message de contact
 export async function sendContactMessage(name: string, email: string, message: string) {
-  const res = await fetch('http://localhost:8000/api/contact', {
+  const res = await fetch(`${API_BASE_URL}/api/contact`, {
     method: 'POST',
     headers: {
       'Content-Type': 'application/json',

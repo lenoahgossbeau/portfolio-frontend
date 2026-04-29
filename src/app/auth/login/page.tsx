@@ -33,8 +33,16 @@ export default function LoginPage() {
       localStorage.setItem('access_token', data.access_token);
       localStorage.setItem('refresh_token', data.refresh_token);
       
-      // Rediriger vers la page d'accueil
-      router.push('/');
+      // Décoder le token pour connaître le rôle
+      const payload = JSON.parse(atob(data.access_token.split('.')[1]));
+      const role = payload.role;
+      
+      // Rediriger selon le rôle
+      if (role === 'admin' || role === 'super_admin') {
+        router.push('/admin/dashboard');
+      } else {
+        router.push('/researcher/dashboard');
+      }
     } catch (err: any) {
       setError(err.message);
     } finally {

@@ -1,6 +1,10 @@
 import { useLanguage } from '@/hooks/useLanguage';
 import { t } from '@/locales/translations';
 import { useState } from 'react';
+import { FiEdit2, FiTrash2 } from 'react-icons/fi';
+import toast from 'react-hot-toast';
+import { API_BASE_URL } from '@/lib/api';
+import EditSubscriptionModal from './subscriptions/EditSubscriptionModal';
 
 // Type local pour éviter les conflits
 type Subscription = {
@@ -15,13 +19,49 @@ type Subscription = {
 
 type Props = {
   subscriptions: Subscription[];
+  onSubscriptionUpdated?: () => void;
 };
 
-export default function SubscriptionTable({ subscriptions }: Props) {
+// Fonction pour formater les dates de manière uniforme
+const formatDate = (dateString: string) => {
+  if (!dateString) return '';
+  // Si la date contient déjà l'heure, on la garde
+  if (dateString.includes(' ')) {
+    return dateString;
+  }
+  // Sinon, on ajoute l'heure 00:00:00 pour uniformiser
+  return `${dateString} 00:00:00`;
+};
+
+// Fonctions de traduction pour les valeurs backend
+const translateType = (type: string, language: string) => {
+  const typeMap: Record<string, { fr: string; en: string }> = {
+    'Premium': { fr: 'Premium', en: 'Premium' },
+    'Standard': { fr: 'Standard', en: 'Standard' },
+    'Basic': { fr: 'Basique', en: 'Basic' },
+  };
+  return typeMap[type]?.[language] || type;
+};
+
+const translatePaymentMethod = (method: string, language: string) => {
+  const methodMap: Record<string, { fr: string; en: string }> = {
+    'Carte bancaire': { fr: 'Carte bancaire', en: 'Credit card' },
+    'Visa': { fr: 'Visa', en: 'Visa' },
+    'Mastercard': { fr: 'Mastercard', en: 'Mastercard' },
+    'PayPal': { fr: 'PayPal', en: 'PayPal' },
+    'Virement': { fr: 'Virement', en: 'Bank transfer' },
+  };
+  return methodMap[method]?.[language] || method;
+};
+
+export default function SubscriptionTable({ subscriptions, onSubscriptionUpdated }: Props) {
   const { language } = useLanguage();
   const [filterType, setFilterType] = useState('');
   const [filterStartDate, setFilterStartDate] = useState('');
   const [filterEndDate, setFilterEndDate] = useState('');
+  const [editingSubscription, setEditingSubscription] = useState<Subscription | null>(null);
+  const [isEditModalOpen, setIsEditModalOpen] = useState(false);
+  const [deletingId, setDeletingId] = useState<string | number | null>(null);
 
   const uniqueTypes = [...new Set(subscriptions.map(s => s.type))];
 
@@ -39,6 +79,43 @@ export default function SubscriptionTable({ subscriptions }: Props) {
     setFilterEndDate('');
   };
 
+  const handleSubscriptionUpdated = () => {
+    if (onSubscriptionUpdated) {
+      onSubscriptionUpdated();
+    }
+    setIsEditModalOpen(false);
+    setEditingSubscription(null);
+  };
+
+  const handleDelete = async (id: string | number) => {
+    if (!confirm(t('delete_confirm', language))) return;
+    
+    setDeletingId(id);
+    try {
+      const token = localStorage.getItem('token') || localStorage.getItem('access_token');
+      const response = await fetch(`${API_BASE_URL}/admin/subscriptions/${id}`, {
+        method: 'DELETE',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        }
+      });
+      
+      if (response.ok) {
+        toast.success(t('delete_success', language));
+        if (onSubscriptionUpdated) {
+          onSubscriptionUpdated();
+        }
+      } else {
+        toast.error(t('delete_error', language));
+      }
+    } catch (error) {
+      console.error('Erreur:', error);
+      toast.error(t('delete_error', language));
+    } finally {
+      setDeletingId(null);
+    }
+  };
+
   if (subscriptions.length === 0) {
     return <div className="text-center py-4 text-gray-400">{t('no_subscriptions', language)}</div>;
   }
@@ -54,8 +131,8 @@ export default function SubscriptionTable({ subscriptions }: Props) {
             className="px-3 py-2 border rounded-lg text-sm"
           >
             <option value="">{t('all', language) || 'Tous'}</option>
-            {uniqueTypes.map(type => (
-              <option key={type} value={type}>{type}</option>
+            {uniqueTypes.map((type) => (
+              <option key={type} value={type}>{translateType(type, language)}</option>
             ))}
           </select>
         </div>
@@ -98,12 +175,13 @@ export default function SubscriptionTable({ subscriptions }: Props) {
               <th>{t('end_date', language)}</th>
               <th>{t('type', language)}</th>
               <th>{t('payment_method', language)}</th>
+              <th className="p-4">Actions</th>
             </tr>
           </thead>
           <tbody>
             {filteredSubscriptions.length === 0 ? (
               <tr>
-                <td colSpan={6} className="text-center py-8 text-gray-400">
+                <td colSpan={7} className="text-center py-8 text-gray-400">
                   {t('no_subscriptions', language)}
                 </td>
               </tr>
@@ -111,11 +189,33 @@ export default function SubscriptionTable({ subscriptions }: Props) {
               filteredSubscriptions.map((sub) => (
                 <tr key={sub.id} className="text-left border-b border-[#ADADAD] last:border-none text-sm">
                   <td className="p-4 font-medium">{sub.id}</td>
-                  <td>{sub.profile_id}</td>
-                  <td>{sub.start_date}</td>
-                  <td>{sub.end_date}</td>
-                  <td>{sub.type}</td>
-                  <td>{sub.payment_method}</td>
+                  <td className="p-4">{sub.profile_id}</td>
+                  <td className="p-4">{formatDate(sub.start_date)}</td>
+                  <td className="p-4">{formatDate(sub.end_date)}</td>
+                  <td className="p-4">{translateType(sub.type, language)}</td>
+                  <td className="p-4">{translatePaymentMethod(sub.payment_method, language)}</td>
+                  <td className="p-4">
+                    <div className="flex gap-2">
+                      <button
+                        onClick={() => {
+                          setEditingSubscription(sub);
+                          setIsEditModalOpen(true);
+                        }}
+                        className="text-yellow-600 hover:text-yellow-800 transition"
+                        title={t('edit', language)}
+                      >
+                        <FiEdit2 size={18} />
+                      </button>
+                      <button
+                        onClick={() => handleDelete(sub.id)}
+                        disabled={deletingId === sub.id}
+                        className="text-red-600 hover:text-red-800 transition disabled:opacity-50"
+                        title={t('delete', language)}
+                      >
+                        <FiTrash2 size={18} />
+                      </button>
+                    </div>
+                  </td>
                 </tr>
               ))
             )}
@@ -126,6 +226,16 @@ export default function SubscriptionTable({ subscriptions }: Props) {
       <div className="text-sm text-gray-500 mt-4 text-center">
         {filteredSubscriptions.length} / {subscriptions.length} {t('subscriptions', language)}
       </div>
+
+      <EditSubscriptionModal
+        subscription={editingSubscription}
+        isOpen={isEditModalOpen}
+        onClose={() => {
+          setIsEditModalOpen(false);
+          setEditingSubscription(null);
+        }}
+        onUpdated={handleSubscriptionUpdated}
+      />
     </div>
   );
 }

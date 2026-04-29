@@ -23,25 +23,51 @@ export interface Subscription {
   status: string;
 }
 
-// Récupérer tous les utilisateurs
+// Récupérer tous les utilisateurs (CORRIGÉ)
 export async function fetchUsers(): Promise<User[]> {
-  const response = await fetchWithAuth(`${API_BASE_URL}/users/users/`);
-  return response.json();
+  try {
+    const response = await fetchWithAuth(`${API_BASE_URL}/admin/users/`);
+    if (!response.ok) {
+      console.error('Erreur fetchUsers:', response.status);
+      return [];
+    }
+    const data = await response.json();
+    // Gérer les deux formats possibles
+    if (data.users && Array.isArray(data.users)) {
+      return data.users;
+    }
+    if (Array.isArray(data)) {
+      return data;
+    }
+    return [];
+  } catch (error) {
+    console.error('Exception fetchUsers:', error);
+    return [];
+  }
 }
 
 // Récupérer les statistiques
 export async function fetchStats() {
-  const response = await fetchWithAuth(`${API_BASE_URL}/admin/stats`);
-  return response.json();
-}
-
-// Récupérer les abonnements (si existants)
-export async function fetchSubscriptions(): Promise<Subscription[]> {
   try {
-    const response = await fetchWithAuth(`${API_BASE_URL}/admin/subscriptions`);
+    const response = await fetchWithAuth(`${API_BASE_URL}/admin/stats`);
+    if (!response.ok) return { totalUsers: 0, activeUsers: 0 };
     return response.json();
   } catch {
-    // Si la route n'existe pas, retourne les données mockées
+    return { totalUsers: 0, activeUsers: 0 };
+  }
+}
+
+// Récupérer les abonnements
+export async function fetchSubscriptions(): Promise<Subscription[]> {
+  try {
+    const response = await fetchWithAuth(`${API_BASE_URL}/admin/subscriptions/`);
+    if (!response.ok) {
+      console.error('Erreur fetchSubscriptions:', response.status);
+      return [];
+    }
+    return response.json();
+  } catch (error) {
+    console.error('Exception fetchSubscriptions:', error);
     return [];
   }
 }

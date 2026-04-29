@@ -4,6 +4,7 @@ import { TfiWorld } from "react-icons/tfi";
 import { FaChevronDown } from "react-icons/fa6";
 import Hamburger from 'hamburger-react';
 import { useRouter } from 'next/navigation';
+import Link from 'next/link';
 import { API_ENDPOINTS, API_BASE_URL } from '@/lib/api';
 import { useLanguage } from '@/hooks/useLanguage';
 import { t } from '@/locales/translations';
@@ -95,23 +96,19 @@ export default function Navbar() {
     }
   };
 
-  // Changement de langue - SIMPLIFIÉ
   const handleLanguageChange = (lang: string) => {
     setLanguage(lang);
     setLangOpen(false);
     window.location.reload();
   };
 
-  const getSectionName = (section: string) => {
-    const map: { [key: string]: string } = {
-      'home': t('nav_home', language),
-      'project': t('nav_project', language),
-      'publication': t('nav_publication', language),
-      'resume': t('nav_resume', language),
-      'about': t('nav_about_me', language),
-    };
-    return map[section] || section;
-  };
+  const navLinks = [
+    { href: "/", label: "nav_home", section: "home" },
+    { href: "/#project", label: "nav_project", section: "project" },
+    { href: "/#publication", label: "nav_publication", section: "publication" },
+    { href: "/#resume", label: "nav_resume", section: "resume" },
+    { href: "/#about", label: "nav_about_me", section: "about" },
+  ];
 
   return (
     <nav className={`sticky top-0 z-50 bg-white transition-shadow ${
@@ -124,20 +121,21 @@ export default function Navbar() {
           <div className="font-light text-[#AAAAAA]">{t('software_engineer', language)}</div>
         </div>
 
+        {/* DESKTOP LINKS */}
         <div className="hidden md:flex gap-8">
-          {sections.map(item => (
-            <a
-              key={item}
-              href={`#${item}`}
+          {navLinks.map((link) => (
+            <Link
+              key={link.section}
+              href={link.href}
               className={`relative hover:text-[#363636] transition ${
-                active === item ? "text-black font-medium" : "text-[#5F5F5F]"
+                active === link.section ? "text-black font-medium" : "text-[#5F5F5F]"
               }`}
             >
-              {active === item && (
+              {active === link.section && (
                 <span className="absolute -left-3 top-[7px] w-[7px] h-[7px] bg-[#8A9DB4] rounded-full" />
               )}
-              {getSectionName(item)}
-            </a>
+              {t(link.label, language)}
+            </Link>
           ))}
         </div>
 
@@ -150,12 +148,20 @@ export default function Navbar() {
               {t('logout', language)}
             </button>
           ) : (
-            <a
-              href="/auth/login"
-              className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition text-sm"
-            >
-              {t('login', language)}
-            </a>
+            <>
+              <Link
+                href="/auth/register"
+                className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition text-sm"
+              >
+                Inscription
+              </Link>
+              <Link
+                href="/auth/login"
+                className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition text-sm"
+              >
+                {t('login', language)}
+              </Link>
+            </>
           )}
 
           <div className="relative">
@@ -186,6 +192,7 @@ export default function Navbar() {
 
       </div>
 
+      {/* MOBILE MENU */}
       <div ref={menuRef} className='md:hidden'>
         <button className="text-[#5F5F5F] absolute top-3 right-2" aria-label="Toggle Menu">
           <Hamburger size={22} toggled={open} toggle={setOpen} />
@@ -197,15 +204,15 @@ export default function Navbar() {
           }`}
         >
           <ul className="flex flex-col items-center py-6 space-y-4 border-t border-[#ADADAD]">
-            {sections.map(item => (
-              <li key={item}>
-                <a
-                  href={`#${item}`}
+            {navLinks.map((link) => (
+              <li key={link.section}>
+                <Link
+                  href={link.href}
                   onClick={closeMenu}
-                  className={`${active === item ? "font-semibold text-black" : "text-[#5F5F5F]"} hover:text-[#363636]`}
+                  className={`${active === link.section ? "font-semibold text-black" : "text-[#5F5F5F]"} hover:text-[#363636]`}
                 >
-                  {getSectionName(item)}
-                </a>
+                  {t(link.label, language)}
+                </Link>
               </li>
             ))}
 
@@ -246,13 +253,22 @@ export default function Navbar() {
                   {t('logout', language)}
                 </button>
               ) : (
-                <a
-                  href="/auth/login"
-                  onClick={closeMenu}
-                  className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition block text-center"
-                >
-                  {t('login', language)}
-                </a>
+                <div className="flex flex-col gap-2 w-full">
+                  <Link
+                    href="/auth/register"
+                    onClick={closeMenu}
+                    className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition block text-center"
+                  >
+                    Inscription
+                  </Link>
+                  <Link
+                    href="/auth/login"
+                    onClick={closeMenu}
+                    className="bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-600 transition block text-center"
+                  >
+                    {t('login', language)}
+                  </Link>
+                </div>
               )}
             </li>
           </ul>

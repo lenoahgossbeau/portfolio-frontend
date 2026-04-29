@@ -9,6 +9,7 @@ import Researcher_Project_Tab_Content from "./Researcher_Project_Tab_Content";
 import Researcher_Publication_Tab_Content from "./Researcher_Publication_Tab_Content";
 import { useLanguage } from '@/hooks/useLanguage';
 import { t } from '@/locales/translations';
+import toast from 'react-hot-toast';
 
 const tabs = [
   { id: "profile", label: "profile" },
@@ -143,7 +144,7 @@ const ResearcherDashboard: React.FC<Props> = ({
         
         {admin && mode === "create" && (
           <button 
-            onClick={() => alert("Published")}
+            onClick={() => toast.success(t('publish_success', language))}
             className="cursor-pointer flex p-2 text-sm px-3 rounded-lg gap-2 items-center bg-[#003F7F] text-white"
           >
             <FiUpload size={17}/> 

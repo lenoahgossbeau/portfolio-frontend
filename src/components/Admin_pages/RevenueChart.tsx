@@ -34,8 +34,15 @@ export default function RevenueChart({ subscriptions }: Props) {
   const sortedMonths = [...new Set([...last6Months, ...Object.keys(revenuesByMonth)])].sort();
   const revenues = sortedMonths.map(month => revenuesByMonth[month] || 0);
 
+  // Traduction des mois pour l'affichage
+  const translateMonth = (monthKey: string) => {
+    const [year, month] = monthKey.split('-');
+    const date = new Date(parseInt(year), parseInt(month) - 1, 1);
+    return date.toLocaleString(language === 'en' ? 'en' : 'fr', { month: 'short', year: 'numeric' });
+  };
+
   const data = {
-    labels: sortedMonths,
+    labels: sortedMonths.map(month => translateMonth(month)),
     datasets: [
       {
         label: t('total_revenue', language),
@@ -57,20 +64,38 @@ export default function RevenueChart({ subscriptions }: Props) {
     responsive: true,
     maintainAspectRatio: true,
     plugins: {
-      legend: { position: 'top' as const, labels: { font: { size: 12 } } },
-      title: { display: true, text: t('revenue_chart', language) || 'Évolution des revenus', font: { size: 14 } },
-      tooltip: { callbacks: { label: (ctx: any) => `${ctx.raw.toFixed(2)} €` } }
+      legend: { 
+        position: 'top' as const, 
+        labels: { font: { size: 12 } } 
+      },
+      title: { 
+        display: true, 
+        text: t('revenue_chart', language), 
+        font: { size: 14 } 
+      },
+      tooltip: { 
+        callbacks: { 
+          label: (ctx: any) => `${ctx.raw.toFixed(2)} €` 
+        } 
+      }
     },
     scales: {
-      y: { beginAtZero: true, title: { display: true, text: '€', font: { size: 12 } } },
-      x: { title: { display: true, text: t('month', language) || 'Mois', font: { size: 12 } } }
+      y: { 
+        beginAtZero: true, 
+        title: { display: true, text: '€', font: { size: 12 } } 
+      },
+      x: { 
+        title: { display: true, text: t('month', language), font: { size: 12 } } 
+      }
     }
   };
 
   if (subscriptions.length === 0) {
-    return <div className="text-center py-8 text-gray-400 bg-white p-6 rounded-xl shadow border">
-      {t('no_data', language) || 'Aucune donnée disponible'}
-    </div>;
+    return (
+      <div className="text-center py-8 text-gray-400 bg-white p-6 rounded-xl shadow border">
+        {t('no_data', language)}
+      </div>
+    );
   }
 
   return (
