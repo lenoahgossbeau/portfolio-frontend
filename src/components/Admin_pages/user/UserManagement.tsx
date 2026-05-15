@@ -5,6 +5,7 @@ import { t } from '@/locales/translations';
 import toast from 'react-hot-toast';
 import { FiTrash2 } from 'react-icons/fi';
 import { API_BASE_URL } from '@/lib/api';
+import ImportContentModal from './ImportContentModal';
 
 type User = {
   id: number;
@@ -24,6 +25,8 @@ export default function UserManagement() {
   const [changingRole, setChangingRole] = useState<number | null>(null);
   const [deletingId, setDeletingId] = useState<number | null>(null);
   const [selectedRole, setSelectedRole] = useState<{ [key: number]: string }>({});
+  const [importUserId, setImportUserId] = useState<number | null>(null);
+  const [isImportModalOpen, setIsImportModalOpen] = useState(false);
 
   const getCurrentUserId = (): number | null => {
     try {
@@ -156,6 +159,11 @@ export default function UserManagement() {
     }
   };
 
+  const openImportModal = (userId: number) => {
+    setImportUserId(userId);
+    setIsImportModalOpen(true);
+  };
+
   const translateRole = (role: string) => {
     const roleMap: Record<string, { fr: string; en: string }> = {
       super_admin: { fr: 'Super Admin', en: 'Super Admin' },
@@ -221,7 +229,7 @@ export default function UserManagement() {
                   </select>
                 </td>
                 <td className="p-3">
-                  <div className="flex gap-2 items-center">
+                  <div className="flex flex-wrap gap-2 items-center">
                     {changingRole === user.id ? (
                       <span className="text-sm text-gray-500">{t('updating', language)}</span>
                     ) : (
@@ -241,6 +249,12 @@ export default function UserManagement() {
                     >
                       <FiTrash2 size={18} />
                     </button>
+                    <button
+                      onClick={() => openImportModal(user.id)}
+                      className="px-3 py-1 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-xs"
+                    >
+                      Importer contenu
+                    </button>
                   </div>
                 </td>
               </tr>
@@ -249,6 +263,17 @@ export default function UserManagement() {
         </table>
       </div>
       <div className="h-8"></div>
+
+      <ImportContentModal
+        key={language}
+        userId={importUserId}
+        isOpen={isImportModalOpen}
+        onClose={() => {
+          setIsImportModalOpen(false);
+          setImportUserId(null);
+        }}
+        onImportComplete={loadUsers}
+      />
     </div>
   );
 }

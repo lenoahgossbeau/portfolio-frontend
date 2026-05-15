@@ -15,6 +15,7 @@ export const translations: Translations = {
   'nav_about_me': { fr: 'À propos de moi', en: 'About me' },
   'login': { fr: 'Connexion', en: 'Login' },
   'logout': { fr: 'Déconnexion', en: 'Logout' },
+  'register': { fr: "S'inscrire", en: "Register" },  // ✅ AJOUTÉ
   'software_engineer': { fr: 'Ingénieur logiciel', en: 'Software engineer' },
   
   // Home page
@@ -54,11 +55,28 @@ export const translations: Translations = {
   'delete_success': { fr: 'Abonnement supprimé avec succès !', en: 'Subscription deleted successfully!' },
   'delete_error': { fr: 'Erreur lors de la suppression', en: 'Error during deletion' },
   'publish_success': { fr: 'Publié avec succès !', en: 'Published successfully!' },
+  
   // AJOUTS POUR SUPPRESSION UTILISATEUR
   'cannot_delete_self': { fr: 'Vous ne pouvez pas supprimer votre propre compte', en: 'You cannot delete your own account' },
   'delete_user_confirm': { fr: 'Êtes-vous sûr de vouloir supprimer cet utilisateur ?', en: 'Are you sure you want to delete this user?' },
   'delete_user_success': { fr: 'Utilisateur supprimé avec succès !', en: 'User deleted successfully!' },
   'delete_user_error': { fr: 'Erreur lors de la suppression de l\'utilisateur', en: 'Error deleting user' },
+  
+  // ==================== IMPORT CONTENU ====================
+  'import_content': { fr: 'Importer contenu', en: 'Import content' },
+  'import_title': { fr: 'Importer le contenu initial', en: 'Import initial content' },
+  'import_success': { fr: 'Contenu importé avec succès', en: 'Content imported successfully' },
+  'import_error': { fr: 'Erreur lors de l\'import', en: 'Import error' },
+  'importing': { fr: 'Import en cours...', en: 'Importing...' },
+  'import': { fr: 'Importer', en: 'Import' },
+  'bio': { fr: 'Bio (texte)', en: 'Bio (text)' },
+  'bio_placeholder': { fr: 'Description du chercheur...', en: 'Researcher description...' },
+  'cv': { fr: 'CV (PDF)', en: 'CV (PDF)' },
+  'photo': { fr: 'Photo de profil', en: 'Profile photo' },
+  'publications': { fr: 'Publications (fichier JSON)', en: 'Publications (JSON file)' },
+  'projects': { fr: 'Projets (fichier JSON)', en: 'Projects (JSON file)' },
+  'publications_format': { fr: 'Format attendu : [{"title": "...", "date": "...", "description": "...", "link": "..."}]', en: 'Expected format: [{"title": "...", "date": "...", "description": "...", "link": "..."}]' },
+  'projects_format': { fr: 'Format attendu : [{"title": "...", "date": "...", "description": "...", "link": "..."}]', en: 'Expected format: [{"title": "...", "date": "...", "description": "...", "link": "..."}]' },
   
   // ==================== CRÉATION ET MODIFICATION ABONNEMENT ====================
   'new_subscription': { fr: 'Nouvel abonnement', en: 'New subscription' },
@@ -168,7 +186,7 @@ export const translations: Translations = {
   'new_subscriptions_chart': { fr: 'Nouveaux abonnements par mois', en: 'New subscriptions per month' },
   'count': { fr: 'Nombre', en: 'Count' },
   
-  // Researcher Dashboard
+  // ==================== RESEARCHER DASHBOARD ====================
   'dashboard': { fr: 'Tableau de bord', en: 'Dashboard' },
   'profile': { fr: 'Profil', en: 'Profile' },
   'personal_info': { fr: 'Informations personnelles', en: 'Personal Info' },
@@ -181,6 +199,45 @@ export const translations: Translations = {
   'link': { fr: 'Lien', en: 'Link' },
   'authors': { fr: 'Auteurs', en: 'Authors' },
   'add_author': { fr: 'Ajouter un auteur et appuyer sur Entrée', en: 'Add author & press Enter' },
+  'messages': { fr: 'Messages', en: 'Messages' },
+  
+  // ==================== PAIEMENT ====================
+  'payment': { fr: 'Paiement', en: 'Payment' },
+  'payment_title': { fr: 'Paiement Mobile Money', en: 'Mobile Money Payment' },
+  'phone_placeholder': { fr: 'Numéro (ex: 612345678)', en: 'Phone number (e.g., 612345678)' },
+  'amount_placeholder': { fr: 'Montant (XAF)', en: 'Amount (XAF)' },
+  'processing': { fr: 'Paiement en cours...', en: 'Processing payment...' },
+  'pay': { fr: 'Payer', en: 'Pay' },
+  
+  // ==================== AUDIT ====================
+  'user': { fr: 'Utilisateur', en: 'User' },
+  'role': { fr: 'Rôle', en: 'Role' },
+  'action': { fr: 'Action', en: 'Action' },
+  'date': { fr: 'Date', en: 'Date' },
+  
+  // ==================== PAGE PUBLIQUE CHERCHEUR ====================
+  'researcher_not_found': { fr: 'Chercheur non trouvé', en: 'Researcher not found' },
+  'not_specified': { fr: 'Non spécifié', en: 'Not specified' },
+  'bio_title': { fr: 'Bio', en: 'Bio' },
+  'no_bio': { fr: 'Aucune bio pour le moment.', en: 'No bio at the moment.' },
+  'cv_title': { fr: 'CV', en: 'Resume' },
+  'download_cv': { fr: 'Télécharger le CV', en: 'Download CV' },
+  'no_cv': { fr: 'Aucun CV disponible pour le moment.', en: 'No CV available at the moment.' },
+  'publications_title': { fr: 'Publications', en: 'Publications' },
+  'no_publications': { fr: 'Aucune publication.', en: 'No publications.' },
+  'projects_title': { fr: 'Projets', en: 'Projects' },
+  'no_projects': { fr: 'Aucun projet.', en: 'No projects.' },
+  'contact_title': { fr: 'Contacter', en: 'Contact' },
+  'your_name': { fr: 'Votre nom', en: 'Your name' },
+  'your_email': { fr: 'Votre email', en: 'Your email' },
+  'your_message': { fr: 'Votre message', en: 'Your message' },
+  'sending': { fr: 'Envoi...', en: 'Sending...' },
+  'send': { fr: 'Envoyer', en: 'Send' },
+  
+  // ==================== PAGE D'ACCUEIL INCHTECHS ====================
+  'home_title': { fr: 'Bienvenue sur InchTechs', en: 'Welcome to InchTechs' },
+  'home_subtitle': { fr: 'Plateforme de portfolios pour chercheurs', en: 'Portfolio platform for researchers' },
+  'browse_researchers': { fr: 'Découvrir les chercheurs', en: 'Browse researchers' },
   
   // ==================== AJOUTS POUR SUBSCRIPTIONS ====================
   'username': { fr: "Nom d'utilisateur", en: 'Username' },
@@ -188,9 +245,6 @@ export const translations: Translations = {
   'total_amount': { fr: 'Montant total', en: 'Total Amount' },
   'started_at': { fr: 'Commencé le', en: 'Started At' },
   'next_billing_date': { fr: 'Prochaine facturation', en: 'Next Billing Date' },
-  
-  // ==================== AJOUTS POUR FILTRES ====================
-  'send': { fr: 'Envoyer', en: 'Send' },
   
   // ==================== NOTIFICATIONS ====================
   'notifications': { fr: 'Notifications', en: 'Notifications' },

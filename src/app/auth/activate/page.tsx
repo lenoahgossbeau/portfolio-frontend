@@ -1,0 +1,95 @@
+'use client';
+import { useEffect, useState } from 'react';
+import { useSearchParams, useRouter } from 'next/navigation';
+import Link from 'next/link';
+import Navbar from '@/components/Navbar';
+import { API_BASE_URL } from '@/lib/api';
+
+export default function ActivatePage() {
+  const searchParams = useSearchParams();
+  const router = useRouter();
+  const token = searchParams.get('token');
+  
+  const [status, setStatus] = useState<'loading' | 'success' | 'error'>('loading');
+  const [message, setMessage] = useState('');
+
+  useEffect(() => {
+    if (!token) {
+      setStatus('error');
+      setMessage('Token d\'activation manquant');
+      return;
+    }
+
+    const activateAccount = async () => {
+      try {
+        const response = await fetch(`${API_BASE_URL}/auth/activate?token=${token}`);
+        const data = await response.json();
+
+        if (response.ok) {
+          setStatus('success');
+          setMessage('Votre compte a été activé avec succès !');
+          // Rediriger vers la page de connexion après 3 secondes
+          setTimeout(() => {
+            router.push('/auth/login');
+          }, 3000);
+        } else {
+          setStatus('error');
+          setMessage(data.detail || 'Erreur lors de l\'activation du compte');
+        }
+      } catch (error) {
+        setStatus('error');
+        setMessage('Erreur réseau. Veuillez réessayer.');
+      }
+    };
+
+    activateAccount();
+  }, [token, router]);
+
+  return (
+    <>
+      <Navbar />
+      <div className="min-h-screen flex items-center justify-center bg-gray-50 py-12 px-4">
+        <div className="max-w-md w-full bg-white rounded-lg shadow-lg p-8 text-center">
+          
+          {status === 'loading' && (
+            <>
+              <div className="inline-block animate-spin rounded-full h-12 w-12 border-b-2 border-blue-600 mb-4"></div>
+              <h2 className="text-2xl font-bold mb-2">Activation en cours...</h2>
+              <p className="text-gray-600">Veuillez patienter...</p>
+            </>
+          )}
+
+          {status === 'success' && (
+            <>
+              <div className="text-green-500 text-6xl mb-4">✓</div>
+              <h2 className="text-2xl font-bold text-green-600 mb-2">Compte activé !</h2>
+              <p className="text-gray-600 mb-6">{message}</p>
+              <p className="text-sm text-gray-500">Redirection vers la connexion...</p>
+              <Link
+                href="/auth/login"
+                className="inline-block mt-4 bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
+              >
+                Se connecter maintenant
+              </Link>
+            </>
+          )}
+
+          {status === 'error' && (
+            <>
+              <div className="text-red-500 text-6xl mb-4">✗</div>
+              <h2 className="text-2xl font-bold text-red-600 mb-2">Erreur d'activation</h2>
+              <p className="text-gray-600 mb-6">{message}</p>
+              <Link
+                href="/auth/register"
+                className="inline-block bg-blue-600 text-white px-6 py-2 rounded-lg hover:bg-blue-700"
+              >
+                Créer un compte
+              </Link>
+            </>
+          )}
+          
+        </div>
+      </div>
+    </>
+  );
+}

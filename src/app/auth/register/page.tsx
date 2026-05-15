@@ -13,6 +13,7 @@ export default function RegisterPage() {
   const router = useRouter();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');
   const [formData, setFormData] = useState({
     email: '',
     password: '',
@@ -25,47 +26,60 @@ export default function RegisterPage() {
     e.preventDefault();
     setLoading(true);
     setError('');
+    setSuccess('');
 
     if (formData.password !== formData.confirmPassword) {
-      setError('Les mots de passe ne correspondent pas');
+      setError(language === 'fr' ? 'Les mots de passe ne correspondent pas' : 'Passwords do not match');
       setLoading(false);
       return;
     }
 
     try {
-      const response = await fetch(`${API_BASE_URL}/auth/register`, {
+      // 1. Inscription - URL CORRIGÉE (sans username)
+      const response = await fetch(`${API_BASE_URL}/users/users/register`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           email: formData.email,
           password: formData.password,
           first_name: formData.first_name,
-          last_name: formData.last_name
+          last_name: formData.last_name,
+          role: "researcher",
+          status: "pending"
         }),
       });
 
       const data = await response.json();
 
       if (!response.ok) {
-        throw new Error(data.detail || "Erreur lors de l'inscription");
+        throw new Error(data.detail || (language === 'fr' ? "Erreur lors de l'inscription" : "Registration error"));
       }
 
-      // Connexion automatique après inscription
-      const loginResponse = await fetch(`${API_BASE_URL}/auth/login`, {
+      // 2. Demander l'envoi de l'email d'activation
+      const activationRes = await fetch(`${API_BASE_URL}/admin/users/activation-link`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({
-          email: formData.email,
-          password: formData.password
-        }),
+        body: JSON.stringify({ email: formData.email })
       });
 
-      const loginData = await loginResponse.json();
-      localStorage.setItem('access_token', loginData.access_token);
-      localStorage.setItem('refresh_token', loginData.refresh_token);
-
-      // Redirige vers le dashboard chercheur
-      router.push('/researcher/dashboard');
+      if (activationRes.ok) {
+        setSuccess(language === 'fr' 
+          ? '✅ Inscription réussie ! Un email d\'activation vous a été envoyé. Vérifiez votre boîte mail (et vos spams).'
+          : '✅ Registration successful! An activation email has been sent to you. Check your inbox (and spam).');
+        
+        // Vider le formulaire
+        setFormData({
+          email: '',
+          password: '',
+          confirmPassword: '',
+          first_name: '',
+          last_name: ''
+        });
+      } else {
+        setSuccess(language === 'fr'
+          ? '✅ Inscription réussie ! Veuillez activer votre compte via le lien reçu par email.'
+          : '✅ Registration successful! Please activate your account via the link received by email.');
+      }
       
     } catch (err: any) {
       setError(err.message);
@@ -78,7 +92,9 @@ export default function RegisterPage() {
     <main>
       <Navbar />
       <div className="max-w-md mx-auto px-4 py-20">
-        <h1 className="text-3xl font-bold text-center mb-8">Inscription</h1>
+        <h1 className="text-3xl font-bold text-center mb-8">
+          {t('register', language)}
+        </h1>
 
         {error && (
           <div className="bg-red-100 text-red-700 p-3 rounded-lg mb-4">
@@ -86,9 +102,17 @@ export default function RegisterPage() {
           </div>
         )}
 
+        {success && (
+          <div className="bg-green-100 text-green-700 p-3 rounded-lg mb-4">
+            {success}
+          </div>
+        )}
+
         <form onSubmit={handleSubmit} className="space-y-4">
           <div>
-            <label className="block text-gray-700 mb-1">Prénom</label>
+            <label className="block text-gray-700 mb-1">
+              {language === 'fr' ? 'Prénom' : 'First name'}
+            </label>
             <input
               type="text"
               required
@@ -99,7 +123,9 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label className="block text-gray-700 mb-1">Nom</label>
+            <label className="block text-gray-700 mb-1">
+              {language === 'fr' ? 'Nom' : 'Last name'}
+            </label>
             <input
               type="text"
               required
@@ -110,7 +136,9 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label className="block text-gray-700 mb-1">Email</label>
+            <label className="block text-gray-700 mb-1">
+              {t('email', language)}
+            </label>
             <input
               type="email"
               required
@@ -121,7 +149,9 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label className="block text-gray-700 mb-1">Mot de passe</label>
+            <label className="block text-gray-700 mb-1">
+              {t('password', language)}
+            </label>
             <input
               type="password"
               required
@@ -132,7 +162,9 @@ export default function RegisterPage() {
           </div>
 
           <div>
-            <label className="block text-gray-700 mb-1">Confirmer le mot de passe</label>
+            <label className="block text-gray-700 mb-1">
+              {language === 'fr' ? 'Confirmer le mot de passe' : 'Confirm password'}
+            </label>
             <input
               type="password"
               required
@@ -145,16 +177,18 @@ export default function RegisterPage() {
           <button
             type="submit"
             disabled={loading}
-            className="w-full bg-blue-600 text-white py-2 rounded-lg hover:bg-blue-700 transition disabled:opacity-50"
+            className="w-full bg-green-600 text-white py-2 rounded-lg hover:bg-green-700 transition disabled:opacity-50"
           >
-            {loading ? 'Inscription...' : "S'inscrire"}
+            {loading 
+              ? (language === 'fr' ? 'Inscription...' : 'Registering...') 
+              : t('register', language)}
           </button>
         </form>
 
         <p className="text-center text-gray-600 mt-4">
-          Déjà un compte ?{' '}
+          {language === 'fr' ? 'Déjà un compte ?' : 'Already have an account?'}{' '}
           <Link href="/auth/login" className="text-blue-600 hover:underline">
-            Se connecter
+            {language === 'fr' ? 'Se connecter' : 'Login'}
           </Link>
         </p>
       </div>

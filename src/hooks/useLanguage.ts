@@ -2,22 +2,31 @@
 import { useEffect, useState } from 'react';
 
 export function useLanguage() {
-  const [language, setLanguage] = useState('FR');
+  const [language, setLanguageState] = useState('fr');
 
   useEffect(() => {
     const savedLang = localStorage.getItem('language');
-    if (savedLang === 'EN' || savedLang === 'FR') {
-      setLanguage(savedLang);
+    if (savedLang === 'en' || savedLang === 'fr') {
+      setLanguageState(savedLang);
+    } else if (savedLang === 'EN') {
+      setLanguageState('en');
+      localStorage.setItem('language', 'en');
+    } else if (savedLang === 'FR') {
+      setLanguageState('fr');
+      localStorage.setItem('language', 'fr');
     } else {
-      setLanguage('FR');
+      setLanguageState('fr');
+      localStorage.setItem('language', 'fr');
     }
   }, []);
 
-  const changeLanguage = (lang: string) => {
-    setLanguage(lang);
-    localStorage.setItem('language', lang);
-    window.location.reload();
+  const setLanguage = (lang: string) => {
+    const normalized = lang.toLowerCase();
+    if (normalized !== 'fr' && normalized !== 'en') return;
+    setLanguageState(normalized);
+    localStorage.setItem('language', normalized);
+    window.location.reload(); // 👈 Force le rechargement
   };
 
-  return { language, setLanguage: changeLanguage };
+  return { language, setLanguage };
 }

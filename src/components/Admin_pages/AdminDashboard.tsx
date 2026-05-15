@@ -11,6 +11,7 @@ import ExportPDF from "./ExportPDF";
 import Notifications from "./Notifications";
 import UserManagement from "./user/UserManagement";
 import CreateSubscription from "./subscriptions/CreateSubscription";
+import AuditLogs from "./AuditLogs";
 import { fetchUsers, fetchSubscriptions, User } from "@/lib/adminApi";
 import { useLanguage } from '@/hooks/useLanguage';
 import { t } from '@/locales/translations';
@@ -141,7 +142,7 @@ const AdminDashboard: React.FC = ({ admin = false }:{ admin?: boolean}) => {
               </div>
               <button 
                 type="button"
-                onClick={() => router.push("/auth/register")}  // ✅ CORRIGÉ ICI
+                onClick={() => router.push("/auth/register")}
                 className="flex items-center gap-2 bg-[#003F7F] text-white px-4 py-2 rounded-lg text-sm"
               >
                 + {t('create', language)}
@@ -186,6 +187,9 @@ const AdminDashboard: React.FC = ({ admin = false }:{ admin?: boolean}) => {
           </div>
         );
 
+      case "audit":
+        return <AuditLogs />;
+
       default:
         return null;
     }
@@ -216,6 +220,17 @@ const AdminDashboard: React.FC = ({ admin = false }:{ admin?: boolean}) => {
             }`}
           >
             {t('subscriptions', language)}
+          </button>
+          <button
+            type="button"
+            onClick={() => setActiveTab("audit")}
+            className={`flex items-center text-sm gap-2 px-6 py-2 rounded-full transition-all ${
+              activeTab === "audit"
+                ? "bg-[#E6EEF7] text-[#474747]"
+                : "text-[#A8A8A8] hover:bg-gray-100/30"
+            }`}
+          >
+            {t('audit', language)}
           </button>
         </div>
         

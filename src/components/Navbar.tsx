@@ -99,7 +99,6 @@ export default function Navbar() {
   const handleLanguageChange = (lang: string) => {
     setLanguage(lang);
     setLangOpen(false);
-    window.location.reload();
   };
 
   const navLinks = [
@@ -153,7 +152,7 @@ export default function Navbar() {
                 href="/auth/register"
                 className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition text-sm"
               >
-                Inscription
+                {t('register', language)}
               </Link>
               <Link
                 href="/auth/login"
@@ -170,7 +169,7 @@ export default function Navbar() {
               className="flex items-center gap-1 hover:text-[#363636] cursor-pointer"
             >
               <TfiWorld className="text-[#5F5F5F]" />
-              <span className="text-[#5F5F5F]">{language}</span>
+              <span className="text-[#5F5F5F]">{language.toUpperCase()}</span>
               <FaChevronDown className='text-xs text-[#5F5F5F]' />
             </button>
 
@@ -222,7 +221,7 @@ export default function Navbar() {
                 className="flex items-center gap-1 hover:text-[#363636] cursor-pointer"
               >
                 <TfiWorld className="text-[#5F5F5F]" />
-                <span className="text-[#5F5F5F]">{language}</span>
+                <span className="text-[#5F5F5F]">{language.toUpperCase()}</span>
                 <FaChevronDown className='text-xs text-[#5F5F5F]' />
               </button>
 
@@ -259,7 +258,7 @@ export default function Navbar() {
                     onClick={closeMenu}
                     className="bg-green-500 text-white px-4 py-2 rounded-md hover:bg-green-600 transition block text-center"
                   >
-                    Inscription
+                    {t('register', language)}
                   </Link>
                   <Link
                     href="/auth/login"
