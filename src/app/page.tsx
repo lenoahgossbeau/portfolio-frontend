@@ -1,6 +1,7 @@
 'use client'
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import profile from '@/assets/profile.png'
 import left_shape from '@/assets/left_shape.png'
 import blue_shape from '@/assets/blue_circle.png'
@@ -109,8 +110,15 @@ export default function Home() {
             {t('about_summary', language)}
           </p>
 
-          <div className="flex justify-center lg:justify-start">
+          {/* ✅ DEUX BOUTONS SUR LA MÊME LIGNE */}
+          <div className="mt-6 flex flex-wrap items-center justify-center lg:justify-start gap-4">
             <Buttons />
+            <Link
+              href="/researchers"
+              className="bg-[#002754] text-white px-6 py-3 rounded-xl shadow-md hover:bg-[#001B40] transition whitespace-nowrap"
+            >
+              {t('browse_researchers', language)}
+            </Link>
           </div>
         </div>
 

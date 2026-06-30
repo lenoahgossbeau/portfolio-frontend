@@ -2,16 +2,51 @@ import { useState } from "react";
 import EditSecurityInfoModal from "./editSecurityInfoModal";
 import { useLanguage } from '@/hooks/useLanguage';
 import { t } from '@/locales/translations';
+import { API_BASE_URL } from '@/lib/api';
+import toast from 'react-hot-toast';
 
 export default function SecurityCard() {
   const { language } = useLanguage();
-
-  const [password, setPassword] = useState({
-    new_password: "",
-    confirm_password: ""
-  });
-
   const [isEditing, setIsEditing] = useState(false);
+  const [currentPassword, setCurrentPassword] = useState('');
+  const [newPassword, setNewPassword] = useState('');
+  const [confirmPassword, setConfirmPassword] = useState('');
+
+  const handleSave = async () => {
+    if (newPassword !== confirmPassword) {
+      toast.error(t('password_mismatch', language));
+      return;
+    }
+
+    try {
+      const token = localStorage.getItem('access_token');
+      const response = await fetch(`${API_BASE_URL}/auth/change-password`, {
+        method: 'PUT',
+        headers: {
+          'Content-Type': 'application/json',
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify({
+          current_password: currentPassword,
+          new_password: newPassword
+        })
+      });
+
+      const data = await response.json();
+
+      if (response.ok) {
+        toast.success(data.message || t('password_updated', language));
+        setCurrentPassword('');
+        setNewPassword('');
+        setConfirmPassword('');
+        setIsEditing(false);
+      } else {
+        toast.error(data.detail || 'Erreur lors du changement de mot de passe');
+      }
+    } catch (error) {
+      toast.error('Erreur réseau');
+    }
+  };
 
   return (
     <div className="bg-white rounded-xl shadow-lg border border-gray-200 p-5 h-35">
@@ -23,8 +58,13 @@ export default function SecurityCard() {
       <EditSecurityInfoModal
         open={isEditing}
         onClose={() => setIsEditing(false)}
-        data={password}
-        onSave={setPassword}
+        onSave={handleSave}
+        currentPassword={currentPassword}
+        setCurrentPassword={setCurrentPassword}
+        newPassword={newPassword}
+        setNewPassword={setNewPassword}
+        confirmPassword={confirmPassword}
+        setConfirmPassword={setConfirmPassword}
       />
 
       <p className="text-sm mt-7">

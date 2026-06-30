@@ -3,6 +3,8 @@ import Modal from "@/components/Modal_structure_Researcher_profile";
 import { useEffect, useState } from "react";
 import { useLanguage } from '@/hooks/useLanguage';
 import { t } from '@/locales/translations';
+import { API_BASE_URL } from '@/lib/api';
+import toast from 'react-hot-toast';
 
 export default function EditPersonalInfoModal({ open, onClose, data, onSave }: any) {
   const { language } = useLanguage();
@@ -15,6 +17,7 @@ export default function EditPersonalInfoModal({ open, onClose, data, onSave }: a
   
   const [imageFile, setImageFile] = useState<File | null>(null);
   const [imagePreview, setImagePreview] = useState(data.avatar);
+  const [uploading, setUploading] = useState(false);
 
   useEffect(() => {
     setForm(data);
@@ -41,29 +44,115 @@ export default function EditPersonalInfoModal({ open, onClose, data, onSave }: a
     const file = e.target.files?.[0];
     if (!file) return;
 
+    // Vérifier que c'est une image
+    if (!file.type.startsWith('image/')) {
+      toast.error('Seuls les fichiers image sont acceptés');
+      return;
+    }
+
+    // Vérifier la taille (max 2MB)
+    if (file.size > 2 * 1024 * 1024) {
+      toast.error('L\'image ne doit pas dépasser 2MB');
+      return;
+    }
+
     setImageFile(file);
-    setImagePreview(URL.createObjectURL(file));
+    // Créer un nouvel URL pour l'aperçu
+    const previewUrl = URL.createObjectURL(file);
+    setImagePreview(previewUrl);
   };
 
-  const handleSave = () => {
+  const uploadImage = async (file: File): Promise<string | null> => {
+    const token = localStorage.getItem('access_token');
+    if (!token) {
+      toast.error('Vous devez être connecté');
+      return null;
+    }
+
+    const formData = new FormData();
+    formData.append('file', file);
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/profiles/upload-photo`, {
+        method: 'POST',
+        headers: {
+          'Authorization': `Bearer ${token}`
+        },
+        body: formData
+      });
+
+      const data = await response.json();
+      if (response.ok && data.success) {
+        return data.photo_url;
+      } else {
+        toast.error(data.detail || 'Erreur lors du téléchargement de la photo');
+        return null;
+      }
+    } catch (error) {
+      toast.error('Erreur réseau');
+      return null;
+    }
+  };
+
+  const handleSave = async () => {
     if (!validate()) return;
-    onSave({ ...form, avatar: imagePreview });
+
+    setUploading(true);
+    let avatarUrl = form.avatar;
+
+    // Si une nouvelle image a été sélectionnée, l'uploader
+    if (imageFile) {
+      const uploadedUrl = await uploadImage(imageFile);
+      if (uploadedUrl) {
+        avatarUrl = uploadedUrl;
+        // Mettre à jour l'aperçu avec l'URL finale
+        setImagePreview(uploadedUrl);
+      } else {
+        setUploading(false);
+        return;
+      }
+    }
+
+    // Sauvegarder le profil avec la nouvelle URL de l'avatar
+    const updatedProfile = { ...form, avatar: avatarUrl };
+    await onSave(updatedProfile);
     onClose();
+    setUploading(false);
   };
 
   return (
     <Modal open={open} onClose={onClose}>
       <div className="flex justify-between items-center mb-4">
         <h3 className="text-lg font-semibold">{t('personal_info', language)}</h3>
-        <button onClick={handleSave} className="text-blue-600 font-medium">
-          {t('save', language)}
+        <button 
+          onClick={handleSave} 
+          disabled={uploading}
+          className={`text-blue-600 font-medium ${uploading ? 'opacity-50 cursor-not-allowed' : ''}`}
+        >
+          {uploading ? 'Upload...' : t('save', language)}
         </button>
       </div>
 
       <div className="flex justify-center mb-6">
         <label className="cursor-pointer">
-          <img src={imagePreview || "/favicon.ico"} className="w-48 h-48 rounded-full object-cover" />
-          <input type="file" accept="image/*" onChange={handleImageChange} className="hidden" />
+          <img 
+            key={imagePreview || "default"}
+            src={imagePreview || "/favicon.ico"} 
+            className="w-48 h-48 rounded-full object-cover border-2 border-gray-200" 
+            alt="Profile"
+            onError={(e) => {
+              e.currentTarget.src = "/favicon.ico";
+            }}
+          />
+          <input 
+            type="file" 
+            accept="image/*" 
+            onChange={handleImageChange} 
+            className="hidden" 
+          />
+          <p className="text-center text-xs text-gray-500 mt-1">
+            {language === 'fr' ? 'Cliquez pour changer la photo' : 'Click to change photo'}
+          </p>
         </label>
       </div>
 

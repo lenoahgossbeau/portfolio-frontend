@@ -9,6 +9,7 @@ import { fetchWithAuth } from '@/lib/api';
 import { API_BASE_URL } from '@/lib/api';
 import ContactCard from "./ContactCard";
 import SecurityCard from "./SecurityCard";
+import toast from 'react-hot-toast';
 
 type Profile = {
   name: string;
@@ -56,6 +57,26 @@ export default function PersonalInfoCard() {
     }
   };
 
+  const refreshProfile = async () => {
+    try {
+      const response = await fetchWithAuth(`${API_BASE_URL}/profiles/me`);
+      const data = await response.json();
+      setProfile({
+        name: (data.first_name || '') + ' ' + (data.last_name || ''),
+        profession: data.grade || '',
+        about: data.bio || '',
+        avatar: data.avatar || '',
+        email: data.email || '',
+        linkedin: data.linkedin || '',
+        whatsapp: data.whatsapp || '',
+        twitter: data.twitter || '',
+        github: data.github || '',
+      });
+    } catch (error) {
+      console.error('Erreur rafraîchissement profil:', error);
+    }
+  };
+
   const handleSave = async (updatedProfile: Profile) => {
     try {
       const response = await fetchWithAuth(`${API_BASE_URL}/profiles/me`, {
@@ -77,9 +98,14 @@ export default function PersonalInfoCard() {
       
       if (response.ok) {
         setProfile(updatedProfile);
+        await refreshProfile();
+        toast.success('Profil mis à jour avec succès');
+      } else {
+        toast.error('Erreur lors de la mise à jour');
       }
     } catch (error) {
       console.error('Erreur sauvegarde profil:', error);
+      toast.error('Erreur réseau');
     }
   };
 
@@ -109,13 +135,24 @@ export default function PersonalInfoCard() {
 
           <div className="flex flex-col items-center w-86 mt-6 overflow-y-auto scrollbar-hide">
             <div className="w-42 h-42 rounded-full overflow-hidden mb-4">
-              <Image
-                src={profile.avatar || "/favicon.ico"}
-                alt="profile"
-                width={170}
-                height={170}
-                className="object-cover"
-              />
+              {profile.avatar ? (
+                <img
+                  src={`${API_BASE_URL}${profile.avatar}`}
+                  alt="profile"
+                  className="w-full h-full object-cover"
+                  onError={(e) => {
+                    e.currentTarget.src = "/favicon.ico";
+                  }}
+                />
+              ) : (
+                <Image
+                  src="/favicon.ico"
+                  alt="profile"
+                  width={170}
+                  height={170}
+                  className="object-cover"
+                />
+              )}
             </div>
 
             <div className="text-left w-full max-w-sm">

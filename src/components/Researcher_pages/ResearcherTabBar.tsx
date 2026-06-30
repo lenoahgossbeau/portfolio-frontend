@@ -8,6 +8,7 @@ import SecurityCard from "./SecurityCard";
 import Researcher_Project_Tab_Content from "./Researcher_Project_Tab_Content";
 import Researcher_Publication_Tab_Content from "./Researcher_Publication_Tab_Content";
 import MessagesView from "./MessagesView";
+import CVUpload from "./CVUpload"; // ✅ AJOUTÉ
 import { useLanguage } from '@/hooks/useLanguage';
 import { t } from '@/locales/translations';
 import toast from 'react-hot-toast';
@@ -93,7 +94,7 @@ const ResearcherDashboard: React.FC<Props> = ({
     }
   }, [mode, researcherId]);
 
-  // ✅ FONCTION PUBLIER AJOUTÉE
+  // ✅ FONCTION PUBLIER
   const handlePublish = async () => {
     const token = localStorage.getItem('access_token');
     if (!token) {
@@ -170,29 +171,16 @@ const ResearcherDashboard: React.FC<Props> = ({
         return (
           <div className="mt-[-20px]">
             <Resume editable={true} />
+            {/* ✅ AJOUT DU COMPOSANT UPLOAD CV */}
+            <div className="mt-6">
+              <CVUpload />
+            </div>
           </div>
         );
       case "profile":
         return (
           <div className="mt-10 text-center text-gray-600 text-lg">
-            <div className="flex flex-row gap-5 justify-center">
-              {profile && (
-                <PersonalInfoCard 
-                  profile={profile ?? EMPTY_PROFILE} 
-                  onSave={(updated) =>
-                    setProfile((prev) =>
-                      prev
-                        ? { ...prev, ...updated }
-                        : { id: Date.now(), ...updated }
-                    )
-                  }
-                />
-              )}
-              <div className="flex flex-col gap-5">
-                <ContactCard />
-                <SecurityCard />
-              </div>
-            </div>
+            <PersonalInfoCard />
           </div>
         );
       case "messages":
@@ -260,7 +248,7 @@ const ResearcherDashboard: React.FC<Props> = ({
         
         {admin && mode === "create" && (
           <button 
-            onClick={handlePublish}  // ✅ CHANGÉ : appelle handlePublish au lieu de toast.success
+            onClick={handlePublish}
             className="cursor-pointer flex p-2 text-sm px-3 rounded-lg gap-2 items-center bg-[#003F7F] text-white"
           >
             <FiUpload size={17}/> 

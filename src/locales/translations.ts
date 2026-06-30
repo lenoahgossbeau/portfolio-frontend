@@ -15,7 +15,7 @@ export const translations: Translations = {
   'nav_about_me': { fr: 'À propos de moi', en: 'About me' },
   'login': { fr: 'Connexion', en: 'Login' },
   'logout': { fr: 'Déconnexion', en: 'Logout' },
-  'register': { fr: "S'inscrire", en: "Register" },  // ✅ AJOUTÉ
+  'register': { fr: "S'inscrire", en: "Register" },
   'software_engineer': { fr: 'Ingénieur logiciel', en: 'Software engineer' },
   
   // Home page
@@ -295,6 +295,40 @@ export const translations: Translations = {
   'year': { fr: 'Année', en: 'Year' },
   'exp_title': { fr: 'Titre du poste', en: 'Job title' },
   'company': { fr: 'Entreprise', en: 'Company' },
+  'start_date': { fr: 'Date de début', en: 'Start date' },
+  'end_date': { fr: 'Date de fin', en: 'End date' },
+  
+  // ==================== LANGUES ET NIVEAUX (NOUVEAU) ====================
+  'level_beginner': { fr: 'Débutant', en: 'Beginner' },
+  'level_intermediate': { fr: 'Intermédiaire', en: 'Intermediate' },
+  'level_fluent': { fr: 'Courant', en: 'Fluent' },
+  'level_native': { fr: 'Natif', en: 'Native' },
+  'type_to_search': { fr: 'Tapez pour rechercher une langue', en: 'Type to search for a language' },
+  'select_level': { fr: 'Sélectionnez un niveau', en: 'Select a level' },
+  'add_language': { fr: 'Ajouter une langue', en: 'Add Language' },
+  'no_languages': { fr: 'Aucune langue ajoutée', en: 'No languages added' },
+  
+  // ==================== UPLOAD CV (NOUVEAU) ====================
+  'upload_cv': { fr: 'Télécharger mon CV', en: 'Upload my CV' },
+  'choose_file': { fr: 'Choisir un fichier', en: 'Choose file' },
+  'no_file_chosen': { fr: 'Aucun fichier choisi', en: 'No file chosen' },
+  'file_chosen': { fr: 'Fichier choisi', en: 'File chosen' },
+  'upload': { fr: 'Télécharger', en: 'Upload' },
+  'delete_cv': { fr: 'Supprimer le CV', en: 'Delete CV' },
+  'delete_cv_confirm': {
+  fr: 'Êtes-vous sûr de vouloir supprimer votre CV ?',
+  en: 'Are you sure you want to delete your CV?'
+},
+'cv_delete_success': {
+  fr: 'CV supprimé avec succès',
+  en: 'CV deleted successfully'
+},
+  'cv_upload_success': { fr: 'CV téléchargé avec succès', en: 'CV uploaded successfully' },
+  'cv_upload_error': { fr: 'Erreur lors du téléchargement du CV', en: 'Error uploading CV' },
+  
+  // ==================== MESSAGES ====================
+  'no_messages': { fr: 'Aucun message reçu.', en: 'No messages received.' },
+  'mark_as_read': { fr: 'Marquer comme lu', en: 'Mark as read' },
 };
 
 export function t(key: string, lang: string): string {

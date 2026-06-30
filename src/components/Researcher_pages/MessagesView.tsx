@@ -52,19 +52,20 @@ export default function MessagesView() {
         method: 'PUT',
         headers: { Authorization: `Bearer ${token}` }
       });
+      toast.success(t('mark_as_read', language) || 'Message marqué comme lu');
       fetchMessages();
     } catch (error) {
       console.error('Erreur marquage lu:', error);
     }
   };
 
-  if (loading) return <div className="text-center py-10">Chargement...</div>;
+  if (loading) return <div className="text-center py-10">{t('loading', language)}</div>;
 
   return (
     <div className="mt-10">
       <h2 className="text-2xl font-semibold mb-6">{t('messages', language)}</h2>
       {messages.length === 0 ? (
-        <p className="text-gray-500">Aucun message reçu.</p>
+        <p className="text-gray-500">{t('no_messages', language)}</p>
       ) : (
         <div className="space-y-4">
           {messages.map((msg) => (
@@ -82,7 +83,7 @@ export default function MessagesView() {
                     onClick={() => markAsRead(msg.id)}
                     className="text-xs bg-blue-600 text-white px-3 py-1 rounded hover:bg-blue-700"
                   >
-                    Marquer comme lu
+                    {t('mark_as_read', language) || 'Marquer comme lu'}
                   </button>
                 )}
               </div>

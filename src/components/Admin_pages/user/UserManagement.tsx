@@ -6,6 +6,7 @@ import toast from 'react-hot-toast';
 import { FiTrash2 } from 'react-icons/fi';
 import { API_BASE_URL } from '@/lib/api';
 import ImportContentModal from './ImportContentModal';
+import AccountCard from "../AccountCard"; // ✅ CORRIGÉ
 
 type User = {
   id: number;

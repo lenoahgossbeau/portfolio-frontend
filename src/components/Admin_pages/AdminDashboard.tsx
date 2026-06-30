@@ -43,7 +43,7 @@ const NewSubscriptionsBarChart = dynamic(() => import('./charts/NewSubscriptions
   loading: () => <div className="h-64 bg-gray-100 animate-pulse rounded-xl" /> 
 });
 
-const AdminDashboard: React.FC = ({ admin = false }:{ admin?: boolean}) => {
+const AdminDashboard: React.FC<{ admin?: boolean }> = ({ admin = false }) => {
   const { language } = useLanguage();
   const [activeTab, setActiveTab] = useState<string>("accounts");
   const [loading, setLoading] = useState(true);
@@ -122,11 +122,32 @@ const AdminDashboard: React.FC = ({ admin = false }:{ admin?: boolean}) => {
       case "accounts":
         return (
           <div className="mt-10 text-center text-gray-600 text-lg">
+            {/* Cercles statistiques (DonutChart) */}
             <div className="flex justify-center gap-10 mt-8">
-              <DonutChart percentage={stats.total > 0 ? 100 : 0} admin={true} label={t('total', language)} />
-              <DonutChart percentage={stats.total > 0 ? (stats.active / stats.total) * 100 : 0} admin={true} label={t('active', language)} />
-              <DonutChart percentage={stats.total > 0 ? (stats.inactive / stats.total) * 100 : 0} admin={true} label={t('inactive', language)} />
-              <DonutChart percentage={stats.total > 0 ? (stats.newUsers / stats.total) * 100 : 0} admin={true} label={t('new', language)} />
+              <DonutChart 
+                percentage={stats.total > 0 ? 100 : 0} 
+                admin={true} 
+                label={t('total', language)} 
+                value={stats.total}
+              />
+              <DonutChart 
+                percentage={stats.total > 0 ? (stats.active / stats.total) * 100 : 0} 
+                admin={true} 
+                label={t('active', language)} 
+                value={stats.active}
+              />
+              <DonutChart 
+                percentage={stats.total > 0 ? (stats.inactive / stats.total) * 100 : 0} 
+                admin={true} 
+                label={t('inactive', language)} 
+                value={stats.inactive}
+              />
+              <DonutChart 
+                percentage={stats.total > 0 ? (stats.newUsers / stats.total) * 100 : 0} 
+                admin={true} 
+                label={t('new', language)} 
+                value={stats.newUsers}
+              />
             </div>
             
             <div className="flex justify-between items-center mt-12 mb-6">

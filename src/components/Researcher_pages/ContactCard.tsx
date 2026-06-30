@@ -6,19 +6,46 @@ import EditContactInfoModal from "./editContactInfoModal";
 import { useLanguage } from '@/hooks/useLanguage';
 import { t } from '@/locales/translations';
 
-export default function ContactCard() {
+type Profile = {
+  name: string;
+  profession: string;
+  about: string;
+  avatar: string;
+  email: string;
+  linkedin: string;
+  whatsapp: string;
+  twitter: string;
+  github: string;
+};
+
+type Props = {
+  profile: Profile;
+  onSave: (updatedProfile: Profile) => void;
+};
+
+export default function ContactCard({ profile, onSave }: Props) {
   const { language } = useLanguage();
-
-  // Données temporaires (à remplacer par API plus tard)
-  const [contact, setContact] = useState({
-    gmail: "ekwogejunior@gmail.com",
-    linkedIn: "https://www.linkedin.com/in/ekwoge",
-    whatsapp: "https://wa.me/627151221212",
-    x: "https://x.com/username",
-    github: "https://github.com/username",
-  });
-
   const [isEditing, setIsEditing] = useState(false);
+
+  const contact = {
+    gmail: profile.email || "",
+    linkedIn: profile.linkedin || "",
+    whatsapp: profile.whatsapp || "",
+    x: profile.twitter || "",
+    github: profile.github || "",
+  };
+
+  const handleSave = (updatedContact: any) => {
+    const updatedProfile = {
+      ...profile,
+      email: updatedContact.gmail,
+      linkedin: updatedContact.linkedIn,
+      whatsapp: updatedContact.whatsapp,
+      twitter: updatedContact.x,
+      github: updatedContact.github,
+    };
+    onSave(updatedProfile);
+  };
 
   return (
     <div className="bg-white rounded-xl shadow-lg p-5 border border-gray-200 h-78">
@@ -31,43 +58,63 @@ export default function ContactCard() {
         open={isEditing}
         onClose={() => setIsEditing(false)}
         data={contact}
-        onSave={setContact}
+        onSave={handleSave}
       />
 
       <div className="space-y-4 mt-8 text-sm flex flex-col gap-2">
         <div className="flex items-center gap-2">
           <MdEmail size={20}/>
-          <a className="text-blue-600 hover:underline" href="#">
-            {contact.gmail}
-          </a>
+          {contact.gmail ? (
+            <a href={`mailto:${contact.gmail}`} className="text-blue-600 hover:underline break-all">
+              {contact.gmail}
+            </a>
+          ) : (
+            <span className="text-gray-400">Email non renseigné</span>
+          )}
         </div>
 
         <div className="flex items-center gap-2">
           <FaLinkedin size={20}/>
-          <a className="text-blue-600 hover:underline" href="#">
-            {contact.linkedIn}
-          </a>
+          {contact.linkedIn ? (
+            <a href={contact.linkedIn.startsWith('http') ? contact.linkedIn : `https://${contact.linkedIn}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline break-all">
+              {contact.linkedIn}
+            </a>
+          ) : (
+            <span className="text-gray-400">LinkedIn non renseigné</span>
+          )}
         </div>
 
         <div className="flex items-center gap-2">
           <FaWhatsapp size={20}/>
-          <a className="text-blue-600 hover:underline" href="#">
-            {contact.whatsapp}
-          </a>
+          {contact.whatsapp ? (
+            <a href={contact.whatsapp.startsWith('http') ? contact.whatsapp : `https://wa.me/${contact.whatsapp}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline break-all">
+              {contact.whatsapp}
+            </a>
+          ) : (
+            <span className="text-gray-400">WhatsApp non renseigné</span>
+          )}
         </div>
 
         <div className="flex items-center gap-2">
           <FaXTwitter size={20}/>
-          <a className="text-blue-600 hover:underline" href="#">
-            {contact.x}
-          </a>
+          {contact.x ? (
+            <a href={contact.x.startsWith('http') ? contact.x : `https://twitter.com/${contact.x}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline break-all">
+              {contact.x}
+            </a>
+          ) : (
+            <span className="text-gray-400">X non renseigné</span>
+          )}
         </div>
 
         <div className="flex items-center gap-2">
           <FaGithub size={20}/>
-          <a className="text-blue-600 hover:underline" href="#">
-            {contact.github}
-          </a>
+          {contact.github ? (
+            <a href={contact.github.startsWith('http') ? contact.github : `https://github.com/${contact.github}`} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline break-all">
+              {contact.github}
+            </a>
+          ) : (
+            <span className="text-gray-400">GitHub non renseigné</span>
+          )}
         </div>
       </div>
     </div>
