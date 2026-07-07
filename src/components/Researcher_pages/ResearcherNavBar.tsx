@@ -8,6 +8,7 @@ import { t } from '@/locales/translations';
 
 const sections = ["dashboard"];
 
+<<<<<<< HEAD
 export default function Navbar( { admin = false }:{ admin?: boolean} ) {
 
   const [active, setActive] = useState("home");
@@ -15,6 +16,13 @@ export default function Navbar( { admin = false }:{ admin?: boolean} ) {
   const [langOpen, setLangOpen] = useState(false);
   const { language, changeLanguage } = useLanguage(); // ✅ useLanguage au lieu d'un état local
 
+=======
+export default function Navbar({ admin = false }: { admin?: boolean }) {
+  const { language, setLanguage } = useLanguage();
+  const [active, setActive] = useState("home");
+  const [scrolled, setScrolled] = useState(false);
+  const [langOpen, setLangOpen] = useState(false);
+>>>>>>> f4845cf3085e1ea3eadeea21e1681219a592d066
   const menuRef = useRef<HTMLDivElement | null>(null);
 
   // Sticky shadow on scroll
@@ -29,6 +37,7 @@ export default function Navbar( { admin = false }:{ admin?: boolean} ) {
   // Active link indicator
   useEffect(() => {
     const handleActiveSection = () => {
+<<<<<<< HEAD
         let current = "home";
         sections.forEach(section => {
             const el = document.getElementById(section);
@@ -46,6 +55,30 @@ export default function Navbar( { admin = false }:{ admin?: boolean} ) {
     return () => {
         window.removeEventListener("scroll", handleActiveSection);
         window.removeEventListener("resize", handleActiveSection);
+=======
+      let current = "home";
+
+      sections.forEach(section => {
+        const el = document.getElementById(section);
+        if (!el) return;
+
+        const rect = el.getBoundingClientRect();
+        if (rect.top <= window.innerHeight / 2) {
+          current = section;
+        }
+      });
+
+      setActive(current);
+    }
+
+    handleActiveSection();
+    window.addEventListener("scroll", handleActiveSection);
+    window.addEventListener("resize", handleActiveSection);
+
+    return () => {
+      window.removeEventListener("scroll", handleActiveSection);
+      window.removeEventListener("resize", handleActiveSection);
+>>>>>>> f4845cf3085e1ea3eadeea21e1681219a592d066
     };
   }, []);
 
@@ -61,6 +94,15 @@ export default function Navbar( { admin = false }:{ admin?: boolean} ) {
     return () => document.removeEventListener("mousedown", handleClick);
   }, []);
 
+<<<<<<< HEAD
+=======
+  const handleLanguageChange = (lang: string) => {
+    setLanguage(lang);
+    setLangOpen(false);
+    window.location.reload();
+  };
+
+>>>>>>> f4845cf3085e1ea3eadeea21e1681219a592d066
   return (
     <nav className={`sticky top-0 z-50 bg-white transition-shadow ${
       scrolled ? "shadow-md" : ""
@@ -115,10 +157,14 @@ export default function Navbar( { admin = false }:{ admin?: boolean} ) {
               {["EN", "FR"].map(lang => (
                 <button
                   key={lang}
+<<<<<<< HEAD
                   onClick={() => {
                     changeLanguage(lang); // ✅ synchronise avec localStorage
                     setLangOpen(false);
                   }}
+=======
+                  onClick={() => handleLanguageChange(lang)}
+>>>>>>> f4845cf3085e1ea3eadeea21e1681219a592d066
                   className="block px-4 py-2 hover:bg-gray-100 w-full text-left"
                 >
                   {lang}
@@ -127,8 +173,15 @@ export default function Navbar( { admin = false }:{ admin?: boolean} ) {
             </div>
           )}
         </div>
+<<<<<<< HEAD
 
       </div>
     </nav>
   );
 }
+=======
+      </div>
+    </nav>
+  );
+}
+>>>>>>> f4845cf3085e1ea3eadeea21e1681219a592d066

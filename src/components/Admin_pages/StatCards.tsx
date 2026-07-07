@@ -29,7 +29,11 @@ export default function SubscriptionStats({ stats }: Props) {
           <p className="text-2xl font-semibold">{stats.total}</p>
           <p className="text-gray-500 text-sm">{t('total_subscriptions', language)}</p>
         </div>
+<<<<<<< HEAD
         <Image src={blue_wave} alt="blue_wave" className="absolute top-17 right-2" />
+=======
+        <Image src={blue_wave} alt="blue_wave" className="absolute top-17 right-2 pointer-events-none" />
+>>>>>>> f4845cf3085e1ea3eadeea21e1681219a592d066
       </div>
 
       <div className="relative flex flex-row gap-2 bg-white border border-gray-300 shadow rounded-xl p-5">
@@ -40,7 +44,11 @@ export default function SubscriptionStats({ stats }: Props) {
           <p className="text-2xl font-semibold">{stats.renewalRate}%</p>
           <p className="text-gray-500 text-sm">{t('renewal_rate', language)}</p>
         </div>
+<<<<<<< HEAD
         <Image src={green_wave} alt="green_wave" className="absolute top-17 right-2" />
+=======
+        <Image src={green_wave} alt="green_wave" className="absolute top-17 right-2 pointer-events-none" />
+>>>>>>> f4845cf3085e1ea3eadeea21e1681219a592d066
       </div>
 
       <div className="relative flex flex-row gap-2 bg-white border border-gray-300 shadow rounded-xl p-5">
@@ -51,7 +59,11 @@ export default function SubscriptionStats({ stats }: Props) {
           <p className="text-2xl font-semibold">${stats.revenue}</p>
           <p className="text-gray-500 text-sm">{t('total_revenue', language)}</p>
         </div>
+<<<<<<< HEAD
         <Image src={red_wave} alt="red_wave" className="absolute top-17 right-2" />
+=======
+        <Image src={red_wave} alt="red_wave" className="absolute top-17 right-2 pointer-events-none" />
+>>>>>>> f4845cf3085e1ea3eadeea21e1681219a592d066
       </div>
     </div>
   );
