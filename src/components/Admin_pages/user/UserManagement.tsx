@@ -1,5 +1,6 @@
 'use client';
 import { useState, useEffect } from 'react';
+import { useRouter } from 'next/navigation';
 import { useLanguage } from '@/hooks/useLanguage';
 import { t } from '@/locales/translations';
 import toast from 'react-hot-toast';
@@ -7,6 +8,7 @@ import { FiTrash2 } from 'react-icons/fi';
 import { API_BASE_URL } from '@/lib/api';
 import ImportContentModal from './ImportContentModal';
 import AccountCard from "../AccountCard"; // ✅ CORRIGÉ
+import UserActions from "./UserActions";
 
 type User = {
   id: number;
@@ -21,6 +23,8 @@ type User = {
 
 export default function UserManagement() {
   const { language } = useLanguage();
+  const router = useRouter();
+
   const [users, setUsers] = useState<User[]>([]);
   const [loading, setLoading] = useState(true);
   const [changingRole, setChangingRole] = useState<number | null>(null);
@@ -165,14 +169,48 @@ export default function UserManagement() {
     setIsImportModalOpen(true);
   };
 
+  const changeStatus = async (userId: number, active: boolean) => {
+    try {
+      const token = localStorage.getItem("access_token");
+
+      const response = await fetch(
+        `${API_BASE_URL}/admin/users/${userId}/status?active=${active}`,
+        {
+          method: "PUT",
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      if (response.ok) {
+        toast.success(
+          active
+            ? "Utilisateur activé avec succès"
+            : "Utilisateur désactivé avec succès"
+        );
+
+        await loadUsers();
+      } else {
+        toast.error("Impossible de modifier le statut");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Erreur réseau");
+    }
+  };
+
   const translateRole = (role: string) => {
     const roleMap: Record<string, { fr: string; en: string }> = {
-      super_admin: { fr: 'Super Admin', en: 'Super Admin' },
-      admin: { fr: 'Administrateur', en: 'Admin' },
-      researcher: { fr: 'Chercheur', en: 'Researcher' },
-      user: { fr: 'Utilisateur', en: 'User' }
+      super_admin: { fr: "Super Administrateur", en: "Super Admin" },
+      admin: { fr: "Administrateur", en: "Admin" },
+      researcher: { fr: "Chercheur", en: "Researcher" },
+      user: { fr: "Utilisateur", en: "User" }
     };
-    return roleMap[role]?.[language.toLowerCase()] || role;
+
+    const lang = language === "fr" ? "fr" : "en";
+
+    return roleMap[role]?.[lang] ?? role;
   };
 
   if (loading) {
@@ -195,7 +233,9 @@ export default function UserManagement() {
               <th className="p-3">{t('name', language)}</th>
               <th className="p-3">{t('current_role', language)}</th>
               <th className="p-3">{t('new_role', language)}</th>
-              <th className="p-3">{t('action', language)}</th>
+              <th className="p-3 w-[560px]">
+                {t('action', language)}
+              </th>
             </tr>
           </thead>
           <tbody>
@@ -229,32 +269,69 @@ export default function UserManagement() {
                     <option value="super_admin">{t('super_admin', language)}</option>
                   </select>
                 </td>
-                <td className="p-3">
-                  <div className="flex flex-wrap gap-2 items-center">
+                <td className="p-3 w-[560px]">
+                  <div className="flex items-center gap-2 whitespace-nowrap">
                     {changingRole === user.id ? (
-                      <span className="text-sm text-gray-500">{t('updating', language)}</span>
+                      <span className="text-sm text-gray-500 w-24 h-8 flex items-center justify-center">
+                        {t('updating', language)}
+                      </span>
                     ) : (
                       <button
                         onClick={() => changeRole(user.id, selectedRole[user.id] || user.role)}
-                        disabled={changingRole === user.id}
-                        className="px-3 py-1 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition text-xs disabled:opacity-50"
+                        className="w-24 h-8 bg-blue-600 text-white rounded hover:bg-blue-700 text-xs font-medium"
                       >
                         {t('update', language)}
                       </button>
                     )}
-                    <button
-                      onClick={() => handleDeleteUser(user.id)}
-                      disabled={deletingId === user.id}
-                      className="text-red-600 hover:text-red-800 transition disabled:opacity-50"
-                      title={t('delete', language)}
-                    >
-                      <FiTrash2 size={18} />
-                    </button>
+
+                    {user.status === "active" ? (
+                      <>
+                        <span className="inline-flex items-center justify-center px-3 h-8 rounded-md bg-green-100 text-green-700 text-xs font-semibold">
+                          Actif
+                        </span>
+
+                        <button
+                          onClick={() => changeStatus(user.id, false)}
+                          className="w-24 h-8 bg-red-600 text-white rounded hover:bg-red-700 text-xs font-medium"
+                        >
+                          Désactiver
+                        </button>
+                      </>
+                    ) : (
+                      <>
+                        <span className="inline-flex items-center justify-center px-3 h-8 rounded-md bg-red-100 text-red-700 text-xs font-semibold">
+                          Inactif
+                        </span>
+
+                        <button
+                          onClick={() => changeStatus(user.id, true)}
+                          className="w-24 h-8 bg-green-600 text-white rounded hover:bg-green-700 text-xs font-medium"
+                        >
+                          Activer
+                        </button>
+                      </>
+                    )}
+
                     <button
                       onClick={() => openImportModal(user.id)}
-                      className="px-3 py-1 bg-green-600 text-white rounded-lg hover:bg-green-700 transition text-xs"
+                      className="w-24 h-8 bg-blue-600 text-white rounded hover:bg-blue-700 text-xs font-medium"
                     >
-                      Importer contenu
+                      Importer
+                    </button>
+
+                    <button
+                      onClick={() => router.push(`/admin/researchers/${user.id}`)}
+                      className="w-24 h-8 bg-gray-600 text-white rounded hover:bg-gray-700 text-xs font-medium"
+                    >
+                      Détail
+                    </button>
+
+                    <button
+                      onClick={() => handleDeleteUser(user.id)}
+                      className="w-8 h-8 flex items-center justify-center rounded-md text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors"
+                      title="Supprimer"
+                    >
+                      <FiTrash2 size={18} />
                     </button>
                   </div>
                 </td>

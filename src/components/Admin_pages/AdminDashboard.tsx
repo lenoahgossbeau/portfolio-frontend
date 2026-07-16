@@ -12,22 +12,12 @@ import Notifications from "./Notifications";
 import UserManagement from "./user/UserManagement";
 import CreateSubscription from "./subscriptions/CreateSubscription";
 import AuditLogs from "./AuditLogs";
-import { fetchUsers, fetchSubscriptions, User } from "@/lib/adminApi";
+import CreateResearcherModal from "./CreateResearcherModal";
+import { fetchUsers, fetchSubscriptions, User, Subscription } from "@/lib/adminApi";
 import { useLanguage } from '@/hooks/useLanguage';
 import { t } from '@/locales/translations';
 import dynamic from 'next/dynamic';
 import { useDebounce } from '@/hooks/useDebounce';
-
-// Type local pour Subscription
-type LocalSubscription = {
-  id: string | number;
-  profile_id: string | number;
-  start_date: string;
-  end_date: string;
-  type: string;
-  payment_method: string;
-  amount?: number;
-};
 
 // Lazy loading des composants de graphiques
 const RevenueChart = dynamic(() => import('./RevenueChart'), { 
@@ -48,15 +38,17 @@ const AdminDashboard: React.FC<{ admin?: boolean }> = ({ admin = false }) => {
   const [activeTab, setActiveTab] = useState<string>("accounts");
   const [loading, setLoading] = useState(true);
   const [users, setUsers] = useState<User[]>([]);
-  const [subscriptions, setSubscriptions] = useState<LocalSubscription[]>([]);
+  const [subscriptions, setSubscriptions] = useState<Subscription[]>([]);
   const [search, setSearch] = useState("");
   const debouncedSearch = useDebounce(search, 500);
   const router = useRouter();
 
+  const [showCreateModal, setShowCreateModal] = useState(false);
+
   const refreshSubscriptions = async () => {
     try {
       const subsData = await fetchSubscriptions();
-      setSubscriptions(Array.isArray(subsData) ? subsData as LocalSubscription[] : []);
+      setSubscriptions(Array.isArray(subsData) ? subsData : []);
     } catch (error) {
       console.error('Erreur refresh abonnements:', error);
     }
@@ -69,7 +61,7 @@ const AdminDashboard: React.FC<{ admin?: boolean }> = ({ admin = false }) => {
         const usersData = await fetchUsers();
         const subsData = await fetchSubscriptions();
         setUsers(Array.isArray(usersData) ? usersData : []);
-        setSubscriptions(Array.isArray(subsData) ? subsData as LocalSubscription[] : []);
+        setSubscriptions(Array.isArray(subsData) ? subsData : []);
       } catch (error) {
         console.error('Erreur chargement données admin:', error);
         setUsers([]);
@@ -82,7 +74,8 @@ const AdminDashboard: React.FC<{ admin?: boolean }> = ({ admin = false }) => {
   }, []);
 
   const accounts = users.map(user => ({
-    id: user.id,
+    userId: user.id,
+    id: user.profile?.id ?? user.id,
     name: user.profile?.first_name 
       ? `${user.profile.first_name} ${user.profile.last_name || ''}` 
       : user.email.split('@')[0],
@@ -163,7 +156,7 @@ const AdminDashboard: React.FC<{ admin?: boolean }> = ({ admin = false }) => {
               </div>
               <button 
                 type="button"
-                onClick={() => router.push("/auth/register")}
+                onClick={() => setShowCreateModal(true)}
                 className="flex items-center gap-2 bg-[#003F7F] text-white px-4 py-2 rounded-lg text-sm"
               >
                 + {t('create', language)}
@@ -179,7 +172,7 @@ const AdminDashboard: React.FC<{ admin?: boolean }> = ({ admin = false }) => {
             ) : (
               <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
                 {filteredAccounts.map((researcher) => (
-                  <AccountCard key={researcher.id} researcher={researcher} />
+                  <AccountCard key={`account_${researcher.email}`} researcher={researcher} onDeleted={() => window.location.reload()} />
                 ))}
               </div>
             )}
@@ -271,8 +264,16 @@ const AdminDashboard: React.FC<{ admin?: boolean }> = ({ admin = false }) => {
       </div>
       
       {renderContent()}
+
+      <CreateResearcherModal
+      isOpen={showCreateModal}
+      onClose={() => setShowCreateModal(false)}
+      onCreated={() => window.location.reload()}
+       />
     </div>
   );
 };
 
 export default AdminDashboard;
+
+

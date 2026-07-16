@@ -302,7 +302,10 @@ const ResearcherDashboard: React.FC<Props> = ({
       case "profile":
         return (
           <div className="mt-10 text-center text-gray-600 text-lg">
-            <PersonalInfoCard />
+            <PersonalInfoCard
+              researcherId={researcherId}
+              mode={mode}
+            />
           </div>
         );
       case "messages":

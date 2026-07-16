@@ -114,7 +114,7 @@ export default function PublicResearcherPage({ params }: { params: Promise<{ id:
           {profile.cvUrl && (
             <div className="p-6 border-b">
               <h2 className="text-xl font-semibold mb-3">CV</h2>
-              <a href={getAvatarUrl(profile.cvUrl)} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+              <a href={getAvatarUrl(profile.cvUrl) ?? undefined} target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
                 Télécharger le CV
               </a>
             </div>

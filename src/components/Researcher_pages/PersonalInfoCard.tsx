@@ -99,7 +99,15 @@ export default function PersonalInfoCard({ profile, onSave }: Props) {
   github: string;
 };
 
-export default function PersonalInfoCard() {
+type Props = {
+  researcherId?: number;
+  mode?: "create" | "edit";
+};
+
+export default function PersonalInfoCard({
+  researcherId,
+  mode = "create",
+}: Props) {
   const { language } = useLanguage();
   const [profile, setProfile] = useState<Profile | null>(null);
   const [loading, setLoading] = useState(true);
@@ -107,12 +115,16 @@ export default function PersonalInfoCard() {
 
   useEffect(() => {
     loadProfile();
-  }, []);
+  }, [researcherId, mode]);
 
   const loadProfile = async () => {
     try {
       setLoading(true);
-      const response = await fetchWithAuth(`${API_BASE_URL}/profiles/me`);
+      const endpoint =
+        mode === "edit" && researcherId
+          ? `${API_BASE_URL}/profiles/${researcherId}`
+          : `${API_BASE_URL}/profiles/me`;
+      const response = await fetchWithAuth(endpoint);
       const data = await response.json();
       
       setProfile({
@@ -135,7 +147,11 @@ export default function PersonalInfoCard() {
 
   const refreshProfile = async () => {
     try {
-      const response = await fetchWithAuth(`${API_BASE_URL}/profiles/me`);
+      const endpoint =
+        mode === "edit" && researcherId
+          ? `${API_BASE_URL}/profiles/${researcherId}`
+          : `${API_BASE_URL}/profiles/me`;
+      const response = await fetchWithAuth(endpoint);
       const data = await response.json();
       setProfile({
         name: (data.first_name || '') + ' ' + (data.last_name || ''),
@@ -155,7 +171,12 @@ export default function PersonalInfoCard() {
 
   const handleSave = async (updatedProfile: Profile) => {
     try {
-      const response = await fetchWithAuth(`${API_BASE_URL}/profiles/me`, {
+      const endpoint =
+        mode === "edit" && researcherId
+          ? `${API_BASE_URL}/profiles/${researcherId}`
+          : `${API_BASE_URL}/profiles/me`;
+
+      const response = await fetchWithAuth(endpoint, {
         method: 'PUT',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
