@@ -186,17 +186,21 @@ export default function UserManagement() {
       if (response.ok) {
         toast.success(
           active
-            ? "Utilisateur activé avec succès"
-            : "Utilisateur désactivé avec succès"
+            ? t('user_activated_success', language)
+            : t('user_deactivated_success', language)
         );
 
         await loadUsers();
       } else {
-        toast.error("Impossible de modifier le statut");
+        toast.error(
+          active
+            ? t('activate_user_error', language)
+            : t('deactivate_user_error', language)
+        );
       }
     } catch (error) {
       console.error(error);
-      toast.error("Erreur réseau");
+      toast.error(t('network_error', language));
     }
   };
 
@@ -287,27 +291,27 @@ export default function UserManagement() {
                     {user.status === "active" ? (
                       <>
                         <span className="inline-flex items-center justify-center px-3 h-8 rounded-md bg-green-100 text-green-700 text-xs font-semibold">
-                          Actif
+                          {t('active', language)}
                         </span>
 
                         <button
                           onClick={() => changeStatus(user.id, false)}
                           className="w-24 h-8 bg-red-600 text-white rounded hover:bg-red-700 text-xs font-medium"
                         >
-                          Désactiver
+                          {t('deactivate', language)}
                         </button>
                       </>
                     ) : (
                       <>
                         <span className="inline-flex items-center justify-center px-3 h-8 rounded-md bg-red-100 text-red-700 text-xs font-semibold">
-                          Inactif
+                          {t('inactive', language)}
                         </span>
 
                         <button
                           onClick={() => changeStatus(user.id, true)}
                           className="w-24 h-8 bg-green-600 text-white rounded hover:bg-green-700 text-xs font-medium"
                         >
-                          Activer
+                          {t('activate', language)}
                         </button>
                       </>
                     )}
@@ -316,20 +320,20 @@ export default function UserManagement() {
                       onClick={() => openImportModal(user.id)}
                       className="w-24 h-8 bg-blue-600 text-white rounded hover:bg-blue-700 text-xs font-medium"
                     >
-                      Importer
+                      {t('import', language)}
                     </button>
 
                     <button
                       onClick={() => router.push(`/admin/researchers/${user.id}`)}
                       className="w-24 h-8 bg-gray-600 text-white rounded hover:bg-gray-700 text-xs font-medium"
                     >
-                      Détail
+                      {t('detail', language)}
                     </button>
 
                     <button
                       onClick={() => handleDeleteUser(user.id)}
                       className="w-8 h-8 flex items-center justify-center rounded-md text-red-600 hover:bg-red-50 hover:text-red-700 transition-colors"
-                      title="Supprimer"
+                      title={t('delete', language)}
                     >
                       <FiTrash2 size={18} />
                     </button>

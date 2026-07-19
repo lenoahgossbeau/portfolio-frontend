@@ -166,14 +166,14 @@ export default function ResearcherDetailsPage() {
     return (
       <div className="flex flex-col items-center justify-center h-screen gap-4">
         <h2 className="text-2xl font-semibold">
-          Chercheur introuvable
+          {t('researcher_not_found', language)}
         </h2>
 
         <button
           onClick={() => router.back()}
           className="px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700"
         >
-          Retour
+          {t('back', language)}
         </button>
       </div>
     );
@@ -303,23 +303,25 @@ export default function ResearcherDetailsPage() {
                 : "bg-red-500/30 text-red-100"
             }`}>
               <span className="w-1.5 h-1.5 rounded-full bg-current"></span>
-              {researcher.status === "active" ? "Actif" : "Inactif"}
+              {researcher.status === "active"
+                ? t('active', language)
+                : t('inactive', language)}
             </span>
             <button className="px-4 py-2 bg-white/15 text-white hover:bg-white/25 rounded-lg transition-all duration-200 hover:scale-105 text-sm font-medium flex items-center gap-2">
-              <FaEye className="w-4 h-4" /> Voir profil
+              <FaEye className="w-4 h-4" /> {t('view_profile', language)}
             </button>
             <button className="px-4 py-2 bg-white/15 text-white hover:bg-white/25 rounded-lg transition-all duration-200 hover:scale-105 text-sm font-medium flex items-center gap-2">
-              <FaPenToSquare className="w-4 h-4" /> Modifier
+              <FaPenToSquare className="w-4 h-4" /> {t('edit', language)}
             </button>
             <button className="px-4 py-2 bg-white/15 text-white hover:bg-red-500/30 rounded-lg transition-all duration-200 hover:scale-105 text-sm font-medium flex items-center gap-2">
-              <FaLock className="w-4 h-4" /> Désactiver
+              <FaLock className="w-4 h-4" /> {t('deactivate', language)}
             </button>
           </div>
         </div>
         {/* Jauge de complétude */}
         <div className="px-6 pb-4">
           <div className="flex items-center gap-3">
-            <span className="text-xs text-blue-200">Complétude du profil</span>
+            <span className="text-xs text-blue-200">{t('profile_completion', language)}</span>
             <div className="flex-1 max-w-xs h-2 bg-blue-900/30 rounded-full overflow-hidden">
               <div
                 className="h-full bg-green-400 rounded-full transition-all duration-500"
@@ -335,10 +337,10 @@ export default function ResearcherDetailsPage() {
       <div className="bg-white rounded-xl shadow-sm border border-gray-200 mb-6">
         <div className="flex gap-1 px-4 md:px-6 overflow-x-auto">
           {[
-            { id: "profile", label: "👤 Profil" },
-            { id: "cv", label: "📄 CV" },
-            { id: "projects", label: "📁 Projets" },
-            { id: "publications", label: "📚 Publications" },
+            { id: "profile", label: `👤 ${t('profile', language)}` },
+            { id: "cv", label: `📄 ${t('cv', language)}` },
+            { id: "projects", label: `📁 ${t('projects_title', language)}` },
+            { id: "publications", label: `📚 ${t('publications_title', language)}` },
           ].map((tab) => (
             <button
               key={tab.id}
@@ -501,7 +503,7 @@ export default function ResearcherDetailsPage() {
             {researcher.profile?.bio && (
               <div className="bg-blue-50 rounded-xl border border-blue-100 p-4 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                 <h3 className="font-semibold text-base text-blue-800 mb-3 flex items-center gap-2 border-b border-blue-200 pb-2">
-                  <FaComments className="w-4 h-4" /> À propos
+                  <FaComments className="w-4 h-4" /> {t('about_section', language)}
                 </h3>
                 <p className="text-sm text-gray-700">{researcher.profile.bio}</p>
                 {researcher.profile?.description && (
@@ -513,19 +515,19 @@ export default function ResearcherDetailsPage() {
             {/* Informations */}
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
               <h3 className="font-semibold text-base text-blue-800 mb-3 flex items-center gap-2 border-b border-gray-200 pb-2">
-                <FaInfo className="w-4 h-4" /> Informations
+                <FaInfo className="w-4 h-4" /> {t('personal_info', language)}
               </h3>
               <div className="space-y-4 text-sm">
                 <div>
-                  <span className="text-gray-400 text-xs uppercase tracking-wider block">👤 Grade</span>
+                  <span className="text-gray-400 text-xs uppercase tracking-wider block">👤 {t('grade', language)}</span>
                   <span className="text-gray-700 font-medium text-base">{researcher.profile?.grade || "-"}</span>
                 </div>
                 <div>
-                  <span className="text-gray-400 text-xs uppercase tracking-wider block">🧠 Domaine</span>
+                  <span className="text-gray-400 text-xs uppercase tracking-wider block">🧠 {t('domain', language)}</span>
                   <span className="text-gray-700 font-medium text-base">{researcher.profile?.specialite || "-"}</span>
                 </div>
                 <div>
-                  <span className="text-gray-400 text-xs uppercase tracking-wider block">🎓 Diplôme</span>
+                  <span className="text-gray-400 text-xs uppercase tracking-wider block">🎓 {t('degree', language)}</span>
                   <span className="text-gray-700 font-medium text-base">{researcher.profile?.diplome || "-"}</span>
                 </div>
               </div>
@@ -535,7 +537,7 @@ export default function ResearcherDetailsPage() {
             {researcher.technical_skills && researcher.technical_skills.length > 0 && (
               <div className="bg-gray-50 rounded-xl border border-gray-200 p-4 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                 <h3 className="font-semibold text-base text-blue-800 mb-3 flex items-center gap-2 border-b border-gray-200 pb-2">
-                  <FaCode className="w-4 h-4" /> Compétences techniques
+                  <FaCode className="w-4 h-4" /> {t('technical_skills', language)}
                 </h3>
                 <div className="space-y-2 max-w-[80%]">
                   {researcher.technical_skills.map((skill) => (
@@ -559,7 +561,7 @@ export default function ResearcherDetailsPage() {
             {researcher.soft_skills && researcher.soft_skills.length > 0 && (
               <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                 <h3 className="font-semibold text-base text-blue-800 mb-3 flex items-center gap-2 border-b border-gray-200 pb-2">
-                  <FaUser className="w-4 h-4" /> Compétences comportementales
+                  <FaUser className="w-4 h-4" /> {t('soft_skills', language)}
                 </h3>
                 <div className="flex flex-wrap gap-1.5">
                   {researcher.soft_skills.map((skill) => (
@@ -578,7 +580,7 @@ export default function ResearcherDetailsPage() {
             {researcher.languages && researcher.languages.length > 0 && (
               <div className="bg-purple-50 rounded-xl border border-purple-100 p-4 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                 <h3 className="font-semibold text-base text-blue-800 mb-3 flex items-center gap-2 border-b border-purple-200 pb-2">
-                  <FaGlobe className="w-4 h-4" /> Langues
+                  <FaGlobe className="w-4 h-4" /> {t('languages_i_speak', language)}
                 </h3>
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
                   {researcher.languages.map((lang) => {
@@ -621,7 +623,7 @@ export default function ResearcherDetailsPage() {
               {researcher.degrees && researcher.degrees.length > 0 && (
                 <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                   <h3 className="font-semibold text-base text-blue-800 mb-3 flex items-center gap-2 border-b border-gray-200 pb-2">
-                    <FaGraduationCap className="w-4 h-4" /> Diplômes
+                    <FaGraduationCap className="w-4 h-4" /> {t('degrees_certifications', language)}
                   </h3>
                   <div className="space-y-4">
                     {researcher.degrees.map((degree) => (
@@ -649,7 +651,7 @@ export default function ResearcherDetailsPage() {
               {researcher.experiences && researcher.experiences.length > 0 && (
                 <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-4 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
                   <h3 className="font-semibold text-base text-blue-800 mb-3 flex items-center gap-2 border-b border-gray-200 pb-2">
-                    <FaBriefcase className="w-4 h-4" /> Expériences
+                    <FaBriefcase className="w-4 h-4" /> {t('experience', language)}
                   </h3>
                   <div className="space-y-4">
                     {researcher.experiences.map((exp) => (
@@ -682,8 +684,8 @@ export default function ResearcherDetailsPage() {
       {activeTab === "cv" && (
         <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-6 text-center shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
           <div className="text-4xl mb-4">📄</div>
-          <h3 className="text-xl font-bold mb-2">Curriculum Vitae</h3>
-          <p className="text-gray-500 mb-4">Document officiel du chercheur</p>
+          <h3 className="text-xl font-bold mb-2">{t('cv_title', language)}</h3>
+          <p className="text-gray-500 mb-4">{t('cv_description', language)}</p>
           {researcher.cv_url ? (
             <div className="flex flex-col sm:flex-row gap-3 justify-center">
               <a
@@ -692,18 +694,18 @@ export default function ResearcherDetailsPage() {
                 rel="noopener noreferrer"
                 className="px-5 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition inline-block"
               >
-                👁️ Voir le CV
+                👁️ {t('view_cv', language)}
               </a>
               <a
                 href={`${API_BASE_URL}/cv/download/${researcher.id}`}
                 download
                 className="px-5 py-2 rounded-lg border border-blue-600 text-blue-600 hover:bg-blue-50 transition inline-block"
               >
-                ⬇ Télécharger
+                ⬇ {t('download', language)}
               </a>
             </div>
           ) : (
-            <p className="text-gray-500">Aucun CV disponible</p>
+            <p className="text-gray-500">{t('no_cv', language)}</p>
           )}
         </div>
       )}
@@ -713,7 +715,7 @@ export default function ResearcherDetailsPage() {
         <div className="space-y-4">
           {researcher.projects.length === 0 ? (
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center text-gray-500 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-              Aucun projet
+              {t('no_projects', language)}
             </div>
           ) : (
             researcher.projects.map((project) => (
@@ -721,7 +723,7 @@ export default function ResearcherDetailsPage() {
                 <div className="flex justify-between items-start">
                   <div>
                     <h3 className="font-bold">{project.title}</h3>
-                    <p className="text-sm text-gray-600 mt-1">{project.description || "Aucune description"}</p>
+                    <p className="text-sm text-gray-600 mt-1">{project.description || t('no_description', language)}</p>
                   </div>
                   <span className="text-sm text-gray-500">{project.year}</span>
                 </div>
@@ -745,7 +747,7 @@ export default function ResearcherDetailsPage() {
         <div className="space-y-4">
           {researcher.publications.length === 0 ? (
             <div className="bg-white rounded-xl shadow-sm border border-gray-200 p-8 text-center text-gray-500 shadow-sm transition-all duration-300 hover:shadow-xl hover:-translate-y-1">
-              Aucune publication
+              {t('no_publications', language)}
             </div>
           ) : (
             researcher.publications.map((pub) => (
@@ -753,7 +755,7 @@ export default function ResearcherDetailsPage() {
                 <div className="flex justify-between items-start">
                   <div>
                     <h3 className="font-bold">{pub.title}</h3>
-                    {pub.journal && <p className="text-sm text-gray-600 mt-1">Journal: {pub.journal}</p>}
+                    {pub.journal && <p className="text-sm text-gray-600 mt-1">{t('journal', language)}: {pub.journal}</p>}
                     {pub.doi && <p className="text-sm text-gray-500">DOI: {pub.doi}</p>}
                   </div>
                   <span className="text-sm text-gray-500">{pub.year}</span>

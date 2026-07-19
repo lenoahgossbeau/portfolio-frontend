@@ -13,29 +13,20 @@ export const translations: Translations = {
   'nav_publication': { fr: 'Publication', en: 'Publication' },
   'nav_resume': { fr: 'CV', en: 'Resume' },
   'nav_about_me': { fr: 'À propos de moi', en: 'About me' },
-<<<<<<< HEAD
   'nav_contact': { fr: 'Contact', en: 'Contact' },
   'login': { fr: 'Connexion', en: 'Login' },
   'logout': { fr: 'Déconnexion', en: 'Logout' },
-  'register': { fr: 'Inscription', en: 'Register' },
+  'register': { fr: "S'inscrire", en: 'Register' },
   'software_engineer': { fr: 'Ingénieur logiciel', en: 'Software engineer' },
 
-=======
-  'login': { fr: 'Connexion', en: 'Login' },
-  'logout': { fr: 'Déconnexion', en: 'Logout' },
-  'register': { fr: "S'inscrire", en: "Register" },
-  'software_engineer': { fr: 'Ingénieur logiciel', en: 'Software engineer' },
-  
->>>>>>> f4845cf3085e1ea3eadeea21e1681219a592d066
   // Home page
-  'hello_title': { fr: 'Bonjour, je suis', en: 'Hello, I\'m' },
+  'hello_title': { fr: 'Bonjour, je suis', en: "Hello, I'm" },
   'get_in_touch': { fr: 'Me contacter', en: 'Get in touch' },
-  'about_summary': { fr: 'Un ingénieur logiciel passionné spécialisé dans la création de solutions web modernes, responsives et conviviales.', en: 'A passionate software engineer specializing in building modern, responsive, and user-friendly web solutions.' },
-<<<<<<< HEAD
+  'about_summary': {
+    fr: 'Un ingénieur logiciel passionné spécialisé dans la création de solutions web modernes, responsives et conviviales.',
+    en: 'A passionate software engineer specializing in building modern, responsive, and user-friendly web solutions.'
+  },
 
-=======
-  
->>>>>>> f4845cf3085e1ea3eadeea21e1681219a592d066
   // Sections
   'project_section': { fr: 'Projets', en: 'Projects' },
   'publication_section': { fr: 'Publications', en: 'Publications' },
@@ -44,20 +35,15 @@ export const translations: Translations = {
   'loading': { fr: 'Chargement...', en: 'Loading...' },
   'view_all': { fr: 'Voir tout', en: 'View All' },
   'show_less': { fr: 'Voir moins', en: 'Show Less' },
-<<<<<<< HEAD
   'no_data': { fr: 'Aucune donnée disponible', en: 'No data available' },
 
   // About section
-  'hi_im': { fr: 'Salut, je suis', en: 'Hi, I\'m' },
-  'about_text': { fr: 'Je suis un ingénieur logiciel passionné par la création de solutions numériques percutantes. Je me concentre sur une architecture propre, des systèmes évolutifs et une conception centrée sur l\'utilisateur pour fournir des applications efficaces et modernes. Mon travail combine l\'excellence technique avec la créativité pour résoudre des problèmes concrets.', en: 'I am a software engineer passionate about building impactful digital solutions. I focus on clean architecture, scalable systems, and user-centered design to deliver efficient and modern applications. My work combines technical excellence with creativity to solve real-world problems.' },
+  'hi_im': { fr: 'Salut, je suis', en: "Hi, I'm" },
+  'about_text': {
+    fr: "Je suis un ingénieur logiciel passionné par la création de solutions numériques percutantes. Je me concentre sur une architecture propre, des systèmes évolutifs et une conception centrée sur l'utilisateur pour fournir des applications efficaces et modernes. Mon travail combine l'excellence technique avec la créativité pour résoudre des problèmes concrets.",
+    en: 'I am a software engineer passionate about building impactful digital solutions. I focus on clean architecture, scalable systems, and user-centered design to deliver efficient and modern applications. My work combines technical excellence with creativity to solve real-world problems.'
+  },
 
-=======
-  
-  // About section
-  'hi_im': { fr: 'Salut, je suis', en: 'Hi, I\'m' },
-  'about_text': { fr: 'Je suis un ingénieur logiciel passionné par la création de solutions numériques percutantes. Je me concentre sur une architecture propre, des systèmes évolutifs et une conception centrée sur l\'utilisateur pour fournir des applications efficaces et modernes. Mon travail combine l\'excellence technique avec la créativité pour résoudre des problèmes concrets.', en: 'I am a software engineer passionate about building impactful digital solutions. I focus on clean architecture, scalable systems, and user-centered design to deliver efficient and modern applications. My work combines technical excellence with creativity to solve real-world problems.' },
-  
->>>>>>> f4845cf3085e1ea3eadeea21e1681219a592d066
   // Buttons
   'create': { fr: 'Créer', en: 'Create' },
   'cancel': { fr: 'Annuler', en: 'Cancel' },
@@ -66,7 +52,13 @@ export const translations: Translations = {
   'edit': { fr: 'Modifier', en: 'Edit' },
   'publish': { fr: 'Publier', en: 'Publish' },
   'export': { fr: 'Exporter', en: 'Export' },
-<<<<<<< HEAD
+  'export_pdf': { fr: 'Exporter PDF', en: 'Export PDF' },
+  'exported_on': { fr: 'Exporté le', en: 'Exported on' },
+  'export_error': { fr: "Erreur lors de l'export", en: 'Export error' },
+  'no_data_to_export': { fr: 'Aucune donnée à exporter', en: 'No data to export' },
+  'export_success': { fr: 'Export CSV réussi !', en: 'CSV export successful!' },
+  'export_csv_success': { fr: 'Export CSV réussi !', en: 'CSV export successful!' },
+  'export_pdf_success': { fr: 'Export PDF réussi !', en: 'PDF export successful!' },
 
   // Contact
   'contact_name': { fr: 'Nom', en: 'Name' },
@@ -79,30 +71,39 @@ export const translations: Translations = {
   'welcome_inchtechs': { fr: 'Bienvenue sur InchTechs', en: 'Welcome to InchTechs' },
   'platform_description': { fr: 'Plateforme de portfolios pour chercheurs', en: 'Portfolio platform for researchers' },
 
-=======
-  'export_pdf': { fr: 'Exporter PDF', en: 'Export PDF' },
-  'exported_on': { fr: 'Exporté le', en: 'Exported on' },
-  'export_error': { fr: 'Erreur lors de l\'export', en: 'Export error' },
-  'no_data_to_export': { fr: 'Aucune donnée à exporter', en: 'No data to export' },
-  'export_success': { fr: 'Export CSV réussi !', en: 'CSV export successful!' },
-  'export_csv_success': { fr: 'Export CSV réussi !', en: 'CSV export successful!' },
-  'export_pdf_success': { fr: 'Export PDF réussi !', en: 'PDF export successful!' },
-  'delete_confirm': { fr: 'Êtes-vous sûr de vouloir supprimer cet abonnement ?', en: 'Are you sure you want to delete this subscription?' },
-  'delete_success': { fr: 'Abonnement supprimé avec succès !', en: 'Subscription deleted successfully!' },
+  // Suppression
+  'delete_confirm': {
+    fr: 'Êtes-vous sûr de vouloir supprimer cet abonnement ?',
+    en: 'Are you sure you want to delete this subscription?'
+  },
+  'delete_success': {
+    fr: 'Abonnement supprimé avec succès !',
+    en: 'Subscription deleted successfully!'
+  },
   'delete_error': { fr: 'Erreur lors de la suppression', en: 'Error during deletion' },
   'publish_success': { fr: 'Publié avec succès !', en: 'Published successfully!' },
-  
-  // AJOUTS POUR SUPPRESSION UTILISATEUR
-  'cannot_delete_self': { fr: 'Vous ne pouvez pas supprimer votre propre compte', en: 'You cannot delete your own account' },
-  'delete_user_confirm': { fr: 'Êtes-vous sûr de vouloir supprimer cet utilisateur ?', en: 'Are you sure you want to delete this user?' },
-  'delete_user_success': { fr: 'Utilisateur supprimé avec succès !', en: 'User deleted successfully!' },
-  'delete_user_error': { fr: 'Erreur lors de la suppression de l\'utilisateur', en: 'Error deleting user' },
-  
-  // ==================== IMPORT CONTENU ====================
+  'cannot_delete_self': {
+    fr: 'Vous ne pouvez pas supprimer votre propre compte',
+    en: 'You cannot delete your own account'
+  },
+  'delete_user_confirm': {
+    fr: 'Êtes-vous sûr de vouloir supprimer cet utilisateur ?',
+    en: 'Are you sure you want to delete this user?'
+  },
+  'delete_user_success': {
+    fr: 'Utilisateur supprimé avec succès !',
+    en: 'User deleted successfully!'
+  },
+  'delete_user_error': {
+    fr: "Erreur lors de la suppression de l'utilisateur",
+    en: 'Error deleting user'
+  },
+
+  // Import contenu
   'import_content': { fr: 'Importer contenu', en: 'Import content' },
   'import_title': { fr: 'Importer le contenu initial', en: 'Import initial content' },
   'import_success': { fr: 'Contenu importé avec succès', en: 'Content imported successfully' },
-  'import_error': { fr: 'Erreur lors de l\'import', en: 'Import error' },
+  'import_error': { fr: "Erreur lors de l'import", en: 'Import error' },
   'importing': { fr: 'Import en cours...', en: 'Importing...' },
   'import': { fr: 'Importer', en: 'Import' },
   'bio': { fr: 'Bio (texte)', en: 'Bio (text)' },
@@ -111,13 +112,19 @@ export const translations: Translations = {
   'photo': { fr: 'Photo de profil', en: 'Profile photo' },
   'publications': { fr: 'Publications (fichier JSON)', en: 'Publications (JSON file)' },
   'projects': { fr: 'Projets (fichier JSON)', en: 'Projects (JSON file)' },
-  'publications_format': { fr: 'Format attendu : [{"title": "...", "date": "...", "description": "...", "link": "..."}]', en: 'Expected format: [{"title": "...", "date": "...", "description": "...", "link": "..."}]' },
-  'projects_format': { fr: 'Format attendu : [{"title": "...", "date": "...", "description": "...", "link": "..."}]', en: 'Expected format: [{"title": "...", "date": "...", "description": "...", "link": "..."}]' },
-  
-  // ==================== CRÉATION ET MODIFICATION ABONNEMENT ====================
+  'publications_format': {
+    fr: 'Format attendu : [{"title": "...", "date": "...", "description": "...", "link": "..."}]',
+    en: 'Expected format: [{"title": "...", "date": "...", "description": "...", "link": "..."}]'
+  },
+  'projects_format': {
+    fr: 'Format attendu : [{"title": "...", "date": "...", "description": "...", "link": "..."}]',
+    en: 'Expected format: [{"title": "...", "date": "...", "description": "...", "link": "..."}]'
+  },
+
+  // Abonnements
   'new_subscription': { fr: 'Nouvel abonnement', en: 'New subscription' },
   'create_subscription': { fr: 'Créer un abonnement', en: 'Create subscription' },
-  'edit_subscription': { fr: 'Modifier l\'abonnement', en: 'Edit subscription' },
+  'edit_subscription': { fr: "Modifier l'abonnement", en: 'Edit subscription' },
   'profile_id_label': { fr: 'ID du profil', en: 'Profile ID' },
   'profile_id_placeholder': { fr: 'Ex: 1', en: 'E.g.: 1' },
   'start_date_label': { fr: 'Date de début', en: 'Start date' },
@@ -140,8 +147,8 @@ export const translations: Translations = {
   'error': { fr: 'Erreur', en: 'Error' },
   'creating': { fr: 'Création...', en: 'Creating...' },
   'updating': { fr: 'Modification...', en: 'Updating...' },
-  
-  // ==================== USER MANAGEMENT ====================
+
+  // User management
   'user_management': { fr: 'Gestion des utilisateurs', en: 'User Management' },
   'current_role': { fr: 'Rôle actuel', en: 'Current Role' },
   'new_role': { fr: 'Nouveau rôle', en: 'New Role' },
@@ -156,15 +163,21 @@ export const translations: Translations = {
   'update': { fr: 'Mettre à jour', en: 'Update' },
   'no_users': { fr: 'Aucun utilisateur trouvé', en: 'No users found' },
   'researcher': { fr: 'Chercheur', en: 'Researcher' },
-  'role_warning': { fr: '⚠️ Attention ! Vous allez perdre vos droits administrateur.', en: '⚠️ Warning! You are about to lose your admin rights.' },
-  'role_warning_continue': { fr: 'Après ce changement, vous ne pourrez plus accéder au dashboard admin.\n\nVoulez-vous vraiment continuer ?', en: 'After this change, you will no longer be able to access the admin dashboard.\n\nDo you really want to continue?' },
-  
-  // ==================== VALEURS BACKEND À TRADUIRE ====================
+  'role': { fr: 'Rôle', en: 'Role' },
+  'role_warning': {
+    fr: '⚠️ Attention ! Vous allez perdre vos droits administrateur.',
+    en: '⚠️ Warning! You are about to lose your admin rights.'
+  },
+  'role_warning_continue': {
+    fr: 'Après ce changement, vous ne pourrez plus accéder au dashboard admin.\n\nVoulez-vous vraiment continuer ?',
+    en: 'After this change, you will no longer be able to access the admin dashboard.\n\nDo you really want to continue?'
+  },
+
+  // Valeurs backend
   'active_status': { fr: 'Actif', en: 'Active' },
   'inactive_status': { fr: 'Inactif', en: 'Inactive' },
-  
->>>>>>> f4845cf3085e1ea3eadeea21e1681219a592d066
-  // Resume/CV section
+
+  // Resume/CV
   'my_skills': { fr: 'Mes compétences', en: 'My Skills' },
   'technical_skills': { fr: 'Compétences techniques', en: 'Technical Skills' },
   'soft_skills': { fr: 'Compétences relationnelles', en: 'Soft Skills' },
@@ -172,42 +185,24 @@ export const translations: Translations = {
   'experience': { fr: 'Expérience', en: 'Experience' },
   'languages_i_speak': { fr: 'Langues parlées', en: 'Languages I speak' },
   'social_media': { fr: 'Réseaux sociaux', en: 'Social Media' },
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> f4845cf3085e1ea3eadeea21e1681219a592d066
   // Languages
   'english': { fr: 'Anglais', en: 'English' },
   'french': { fr: 'Français', en: 'French' },
   'spanish': { fr: 'Espagnol', en: 'Spanish' },
   'italian': { fr: 'Italien', en: 'Italian' },
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> f4845cf3085e1ea3eadeea21e1681219a592d066
   // Language levels
   'proficient': { fr: 'Courant', en: 'Proficient' },
   'fluent': { fr: 'Courant', en: 'Fluent' },
   'intermediate': { fr: 'Intermédiaire', en: 'Intermediate' },
-<<<<<<< HEAD
-  'basic': { fr: 'Débutant', en: 'Basic' },
-
-=======
   'basic_level': { fr: 'Débutant', en: 'Basic' },
-  
->>>>>>> f4845cf3085e1ea3eadeea21e1681219a592d066
   'ui_design': { fr: 'Design UI', en: 'UI Design' },
   'certificate': { fr: 'Certificat', en: 'Certificate' },
   'sr_ux_designer': { fr: 'Designer UX Senior', en: 'Sr. UX Designer' },
-  'bachelors': { fr: 'Licence', en: 'Bachelor\'s' },
+  'bachelors': { fr: 'Licence', en: "Bachelor's" },
   'cloud_computing': { fr: 'Cloud Computing', en: 'Cloud Computing' },
-<<<<<<< HEAD
 
-=======
-  
->>>>>>> f4845cf3085e1ea3eadeea21e1681219a592d066
   // Admin Dashboard
   'accounts': { fr: 'Comptes', en: 'Accounts' },
   'subscriptions': { fr: 'Abonnements', en: 'Subscriptions' },
@@ -216,16 +211,13 @@ export const translations: Translations = {
   'inactive': { fr: 'Inactif', en: 'Inactive' },
   'new': { fr: 'Nouveau', en: 'New' },
   'search': { fr: 'Rechercher', en: 'Search' },
-<<<<<<< HEAD
-=======
   'all': { fr: 'Tous', en: 'All' },
   'reset': { fr: 'Réinitialiser', en: 'Reset' },
->>>>>>> f4845cf3085e1ea3eadeea21e1681219a592d066
   'no_accounts': { fr: 'Aucun compte trouvé', en: 'No accounts found' },
   'no_subscriptions': { fr: 'Aucun abonnement', en: 'No subscriptions' },
   'profile_id': { fr: 'ID Profil', en: 'Profile ID' },
-  'start_date': { fr: 'Date début', en: 'Start Date' },
-  'end_date': { fr: 'Date fin', en: 'End Date' },
+  'start_date': { fr: 'Date de début', en: 'Start date' },
+  'end_date': { fr: 'Date de fin', en: 'End date' },
   'type': { fr: 'Type', en: 'Type' },
   'payment_method': { fr: 'Moyen de paiement', en: 'Payment Method' },
   'total_revenue': { fr: 'Revenu total', en: 'Total Revenue' },
@@ -233,22 +225,14 @@ export const translations: Translations = {
   'dashboard_title': { fr: 'Tableau de bord administrateur', en: 'Admin Dashboard' },
   'total_subscriptions': { fr: 'Total des abonnements', en: 'Total Subscriptions' },
   'id': { fr: 'ID', en: 'ID' },
-<<<<<<< HEAD
-
-  // Researcher Dashboard
-=======
   'revenue_chart': { fr: 'Évolution des revenus', en: 'Revenue Evolution' },
-  'no_data': { fr: 'Aucune donnée disponible', en: 'No data available' },
   'month': { fr: 'Mois', en: 'Month' },
-  
-  // ==================== GRAPHIQUES AVANCÉS ====================
   'subscription_by_type': { fr: 'Répartition par type', en: 'Subscription by type' },
   'new_subscriptions': { fr: 'Nouveaux abonnements', en: 'New subscriptions' },
   'new_subscriptions_chart': { fr: 'Nouveaux abonnements par mois', en: 'New subscriptions per month' },
   'count': { fr: 'Nombre', en: 'Count' },
-  
-  // ==================== RESEARCHER DASHBOARD ====================
->>>>>>> f4845cf3085e1ea3eadeea21e1681219a592d066
+
+  // Researcher Dashboard
   'dashboard': { fr: 'Tableau de bord', en: 'Dashboard' },
   'profile': { fr: 'Profil', en: 'Profile' },
   'personal_info': { fr: 'Informations personnelles', en: 'Personal Info' },
@@ -261,30 +245,17 @@ export const translations: Translations = {
   'link': { fr: 'Lien', en: 'Link' },
   'authors': { fr: 'Auteurs', en: 'Authors' },
   'add_author': { fr: 'Ajouter un auteur et appuyer sur Entrée', en: 'Add author & press Enter' },
-<<<<<<< HEAD
-};
-
-export function t(key: string, lang: string): string {
-  if (translations[key] && translations[key][lang.toLowerCase()]) {
-    return translations[key][lang.toLowerCase()];
-=======
   'messages': { fr: 'Messages', en: 'Messages' },
-  
-  // ==================== PAIEMENT ====================
+
+  // Paiement
   'payment': { fr: 'Paiement', en: 'Payment' },
   'payment_title': { fr: 'Paiement Mobile Money', en: 'Mobile Money Payment' },
   'phone_placeholder': { fr: 'Numéro (ex: 612345678)', en: 'Phone number (e.g., 612345678)' },
   'amount_placeholder': { fr: 'Montant (XAF)', en: 'Amount (XAF)' },
   'processing': { fr: 'Paiement en cours...', en: 'Processing payment...' },
   'pay': { fr: 'Payer', en: 'Pay' },
-  
-  // ==================== AUDIT ====================
-  'user': { fr: 'Utilisateur', en: 'User' },
-  'role': { fr: 'Rôle', en: 'Role' },
-  'action': { fr: 'Action', en: 'Action' },
-  'date': { fr: 'Date', en: 'Date' },
-  
-  // ==================== PAGE PUBLIQUE CHERCHEUR ====================
+
+  // Page publique chercheur
   'researcher_not_found': { fr: 'Chercheur non trouvé', en: 'Researcher not found' },
   'not_specified': { fr: 'Non spécifié', en: 'Not specified' },
   'bio_title': { fr: 'Bio', en: 'Bio' },
@@ -302,32 +273,31 @@ export function t(key: string, lang: string): string {
   'your_message': { fr: 'Votre message', en: 'Your message' },
   'sending': { fr: 'Envoi...', en: 'Sending...' },
   'send': { fr: 'Envoyer', en: 'Send' },
-  
-  // ==================== PAGE D'ACCUEIL INCHTECHS ====================
+
+  // Page accueil InchTechs
   'home_title': { fr: 'Bienvenue sur InchTechs', en: 'Welcome to InchTechs' },
   'home_subtitle': { fr: 'Plateforme de portfolios pour chercheurs', en: 'Portfolio platform for researchers' },
-  'browse_researchers': { fr: 'Découvrir les chercheurs', en: 'Browse researchers' },
-  
-  // ==================== AJOUTS POUR SUBSCRIPTIONS ====================
+
+  // Subscriptions
   'username': { fr: "Nom d'utilisateur", en: 'Username' },
   'email': { fr: 'Email', en: 'Email' },
   'total_amount': { fr: 'Montant total', en: 'Total Amount' },
   'started_at': { fr: 'Commencé le', en: 'Started At' },
   'next_billing_date': { fr: 'Prochaine facturation', en: 'Next Billing Date' },
-  
-  // ==================== NOTIFICATIONS ====================
+
+  // Notifications
   'notifications': { fr: 'Notifications', en: 'Notifications' },
   'subscription_expiring': { fr: 'Abonnement expire bientôt', en: 'Subscription expiring soon' },
-  
-  // ==================== PERSONAL INFO CARD ====================
+
+  // Personal Info
   'name': { fr: 'Nom', en: 'Name' },
   'profession': { fr: 'Profession', en: 'Profession' },
   'about_you': { fr: 'À propos de vous', en: 'About you' },
   'no_name': { fr: 'Aucun nom défini', en: 'No name has been set' },
   'no_profession': { fr: 'Aucune profession définie', en: 'No profession has been set' },
   'no_about': { fr: 'Aucune description définie', en: 'No about has been set' },
-  
-  // ==================== MODAL ERRORS ====================
+
+  // Modal errors
   'name_required': { fr: 'Le nom est requis', en: 'Name is required' },
   'profession_required': { fr: 'La profession est requise', en: 'Profession is required' },
   'about_required': { fr: 'La description est requise', en: 'About section is required' },
@@ -336,8 +306,8 @@ export function t(key: string, lang: string): string {
   'whatsapp': { fr: 'WhatsApp', en: 'WhatsApp' },
   'twitter': { fr: 'X (Twitter)', en: 'X (Twitter)' },
   'github': { fr: 'GitHub', en: 'GitHub' },
-  
-  // ==================== SECURITY MODAL ====================
+
+  // Security
   'password_required': { fr: 'Le mot de passe est requis', en: 'Password is required' },
   'password_min_length': { fr: 'Le mot de passe doit contenir au moins 8 caractères', en: 'Password must be at least 8 characters' },
   'confirm_password_required': { fr: 'Veuillez confirmer votre mot de passe', en: 'Please confirm your password' },
@@ -345,29 +315,28 @@ export function t(key: string, lang: string): string {
   'new_password': { fr: 'Nouveau mot de passe', en: 'New password' },
   'confirm_password': { fr: 'Confirmer le mot de passe', en: 'Confirm password' },
   'password_updated': { fr: 'Mot de passe mis à jour avec succès', en: 'Password updated successfully' },
-  
-  // ==================== CV MODAL ====================
+
+  // CV Modal
   'add': { fr: 'Ajouter', en: 'Add' },
-  'edit': { fr: 'Modifier', en: 'Edit' },
   'skill': { fr: 'Compétence', en: 'Skill' },
   'language': { fr: 'Langue', en: 'Language' },
   'degree': { fr: 'Diplôme', en: 'Degree' },
-  'experience': { fr: 'Expérience', en: 'Experience' },
   'technical': { fr: 'Technique', en: 'Technical' },
   'soft': { fr: 'Relationnelle', en: 'Soft' },
   'skill_name': { fr: 'Nom de la compétence', en: 'Skill name' },
   'level': { fr: 'Niveau', en: 'Level' },
   'language_name': { fr: 'Nom de la langue', en: 'Language name' },
-  'language_level': { fr: 'Niveau (Débutant, Intermédiaire, Courant, Natif)', en: 'Level (Beginner, Intermediate, Fluent, Native)' },
+  'language_level': {
+    fr: 'Niveau (Débutant, Intermédiaire, Courant, Natif)',
+    en: 'Level (Beginner, Intermediate, Fluent, Native)'
+  },
   'degree_title': { fr: 'Titre du diplôme', en: 'Degree title' },
   'institution': { fr: 'Établissement', en: 'Institution' },
   'year': { fr: 'Année', en: 'Year' },
   'exp_title': { fr: 'Titre du poste', en: 'Job title' },
   'company': { fr: 'Entreprise', en: 'Company' },
-  'start_date': { fr: 'Date de début', en: 'Start date' },
-  'end_date': { fr: 'Date de fin', en: 'End date' },
-  
-  // ==================== LANGUES ET NIVEAUX (NOUVEAU) ====================
+
+  // Langues et niveaux
   'level_beginner': { fr: 'Débutant', en: 'Beginner' },
   'level_intermediate': { fr: 'Intermédiaire', en: 'Intermediate' },
   'level_fluent': { fr: 'Courant', en: 'Fluent' },
@@ -376,8 +345,8 @@ export function t(key: string, lang: string): string {
   'select_level': { fr: 'Sélectionnez un niveau', en: 'Select a level' },
   'add_language': { fr: 'Ajouter une langue', en: 'Add Language' },
   'no_languages': { fr: 'Aucune langue ajoutée', en: 'No languages added' },
-  
-  // ==================== UPLOAD CV (NOUVEAU) ====================
+
+  // Upload CV
   'upload_cv': { fr: 'Télécharger mon CV', en: 'Upload my CV' },
   'choose_file': { fr: 'Choisir un fichier', en: 'Choose file' },
   'no_file_chosen': { fr: 'Aucun fichier choisi', en: 'No file chosen' },
@@ -385,26 +354,59 @@ export function t(key: string, lang: string): string {
   'upload': { fr: 'Télécharger', en: 'Upload' },
   'delete_cv': { fr: 'Supprimer le CV', en: 'Delete CV' },
   'delete_cv_confirm': {
-  fr: 'Êtes-vous sûr de vouloir supprimer votre CV ?',
-  en: 'Are you sure you want to delete your CV?'
-},
-'cv_delete_success': {
-  fr: 'CV supprimé avec succès',
-  en: 'CV deleted successfully'
-},
-  'cv_upload_success': { fr: 'CV téléchargé avec succès', en: 'CV uploaded successfully' },
-  'cv_upload_error': { fr: 'Erreur lors du téléchargement du CV', en: 'Error uploading CV' },
-  
-  // ==================== MESSAGES ====================
+    fr: 'Êtes-vous sûr de vouloir supprimer votre CV ?',
+    en: 'Are you sure you want to delete your CV?'
+  },
+  'cv_delete_success': {
+    fr: 'CV supprimé avec succès',
+    en: 'CV deleted successfully'
+  },
+  'cv_upload_success': {
+    fr: 'CV téléchargé avec succès',
+    en: 'CV uploaded successfully'
+  },
+  'cv_upload_error': {
+    fr: 'Erreur lors du téléchargement du CV',
+    en: 'Error uploading CV'
+  },
+
+  // Messages
   'no_messages': { fr: 'Aucun message reçu.', en: 'No messages received.' },
   'mark_as_read': { fr: 'Marquer comme lu', en: 'Mark as read' },
+
+  // ==================== USER ACTIONS ====================
+  'activate': { fr: 'Activer', en: 'Activate' },
+  'deactivate': { fr: 'Désactiver', en: 'Deactivate' },
+  'detail': { fr: 'Détail', en: 'Details' },
+
+  'user_activated_success': {
+    fr: 'Utilisateur activé avec succès',
+    en: 'User activated successfully'
+  },
+
+  'user_deactivated_success': {
+    fr: 'Utilisateur désactivé avec succès',
+    en: 'User deactivated successfully'
+  },
+
+  'activate_user_error': {
+    fr: "Impossible d'activer l'utilisateur",
+    en: 'Unable to activate user'
+  },
+
+  'deactivate_user_error': {
+    fr: "Impossible de désactiver l'utilisateur",
+    en: 'Unable to deactivate user'
+  },
 };
 
 export function t(key: string, lang: string): string {
-  const langKey = lang.toLowerCase();
-  if (translations[key] && translations[key][langKey]) {
-    return translations[key][langKey];
->>>>>>> f4845cf3085e1ea3eadeea21e1681219a592d066
+  const langKey = lang.toLowerCase() as 'fr' | 'en';
+  const translation = translations[key];
+
+  if (translation) {
+    return translation[langKey] ?? key;
   }
+
   return key;
 }

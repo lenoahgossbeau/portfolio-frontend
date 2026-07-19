@@ -101,7 +101,10 @@ const AdminDashboard: React.FC<{ admin?: boolean }> = ({ admin = false }) => {
 
   const subStats = useMemo(() => {
     const total = subscriptions.length;
-    const revenue = subscriptions.reduce((sum, s) => sum + (s.amount || 29.99), 0);
+    const revenue = subscriptions.reduce(
+      (sum, s) => sum + Number(s.amount || 0),
+      0
+    );
     const renewalRate = 100;
     return { total, revenue, renewalRate };
   }, [subscriptions]);
@@ -275,5 +278,3 @@ const AdminDashboard: React.FC<{ admin?: boolean }> = ({ admin = false }) => {
 };
 
 export default AdminDashboard;
-
-

@@ -52,16 +52,16 @@ export default function UserActions({
     if (success) {
       toast.success(
         active
-          ? "Utilisateur activé avec succès"
-          : "Utilisateur désactivé avec succès"
+          ? t('user_activated_success', language)
+          : t('user_deactivated_success', language)
       );
 
       await onRefresh();
     } else {
       toast.error(
         active
-          ? "Impossible d'activer l'utilisateur"
-          : "Impossible de désactiver l'utilisateur"
+          ? t('activate_user_error', language)
+          : t('deactivate_user_error', language)
       );
     }
   };
@@ -71,27 +71,27 @@ export default function UserActions({
       {user.status === "active" ? (
         <>
           <span className="px-2 py-1 rounded-full bg-green-100 text-green-700 text-[11px] font-medium">
-            Actif
+            {t('active', language)}
           </span>
 
           <button
             onClick={() => handleChangeStatus(false)}
             className="px-3 py-1 bg-red-600 text-white rounded-md hover:bg-red-700 text-xs"
           >
-            Désactiver
+            {t('deactivate', language)}
           </button>
         </>
       ) : (
         <>
           <span className="px-2 py-1 rounded-full bg-red-100 text-red-700 text-[11px] font-medium">
-            Inactif
+            {t('inactive', language)}
           </span>
 
           <button
             onClick={() => handleChangeStatus(true)}
             className="px-3 py-1 bg-green-600 text-white rounded-md hover:bg-green-700 text-xs"
           >
-            Activer
+            {t('activate', language)}
           </button>
         </>
       )}
@@ -100,14 +100,14 @@ export default function UserActions({
         onClick={() => onImport(user.id)}
         className="px-3 py-1 bg-green-600 text-white rounded-lg hover:bg-green-700 text-xs"
       >
-        Importer
+        {t('import', language)}
       </button>
 
       <button
         onClick={() => onDetail(user.id)}
         className="px-3 py-1 bg-gray-600 text-white rounded-lg hover:bg-gray-700 text-xs"
       >
-        Détail
+        {t('detail', language)}
       </button>
 
       <button

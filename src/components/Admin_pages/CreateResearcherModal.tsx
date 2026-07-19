@@ -47,11 +47,7 @@ export default function CreateResearcherModal({
       !form.email ||
       !form.password
     ) {
-      toast.error(
-        language === 'fr'
-          ? 'Tous les champs sont requis'
-          : 'All fields are required'
-      );
+      toast.error(t('all_fields_required', language));
       return;
     }
 
@@ -72,11 +68,7 @@ export default function CreateResearcherModal({
       const data = await response.json();
 
       if (response.ok) {
-        toast.success(
-          language === 'fr'
-            ? 'Chercheur créé avec succès !'
-            : 'Researcher created successfully!'
-        );
+        toast.success(t('researcher_created_success', language));
 
         setForm({
           first_name: '',
@@ -90,18 +82,11 @@ export default function CreateResearcherModal({
         onCreated();
       } else {
         toast.error(
-          data.detail ||
-            (language === 'fr'
-              ? 'Erreur lors de la création'
-              : 'Error creating researcher')
+          data.detail || t('researcher_creation_error', language)
         );
       }
     } catch (error) {
-      toast.error(
-        language === 'fr'
-          ? 'Erreur réseau'
-          : 'Network error'
-      );
+      toast.error(t('network_error', language));
     } finally {
       setLoading(false);
     }
@@ -111,15 +96,13 @@ export default function CreateResearcherModal({
     <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50">
       <div className="bg-white rounded-xl shadow-xl p-6 w-full max-w-md mx-4">
         <h2 className="text-lg font-semibold mb-4">
-          {language === 'fr'
-            ? 'Créer un chercheur'
-            : 'Create a researcher'}
+          {t('create_researcher', language)}
         </h2>
 
         <div className="space-y-3">
           <div>
             <label className="text-sm text-gray-600 block mb-1">
-              {language === 'fr' ? 'Prénom' : 'First name'} *
+              {t('first_name', language)} *
             </label>
             <input
               type="text"
@@ -127,13 +110,13 @@ export default function CreateResearcherModal({
               value={form.first_name}
               onChange={handleChange}
               className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder={language === 'fr' ? 'Prénom' : 'First name'}
+              placeholder={t('first_name', language)}
             />
           </div>
 
           <div>
             <label className="text-sm text-gray-600 block mb-1">
-              {language === 'fr' ? 'Nom' : 'Last name'} *
+              {t('last_name', language)} *
             </label>
             <input
               type="text"
@@ -141,7 +124,7 @@ export default function CreateResearcherModal({
               value={form.last_name}
               onChange={handleChange}
               className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
-              placeholder={language === 'fr' ? 'Nom' : 'Last name'}
+              placeholder={t('last_name', language)}
             />
           </div>
 
@@ -161,7 +144,7 @@ export default function CreateResearcherModal({
 
           <div>
             <label className="text-sm text-gray-600 block mb-1">
-              {language === 'fr' ? 'Mot de passe' : 'Password'} *
+              {t('password', language)} *
             </label>
             <input
               type="password"
@@ -175,7 +158,7 @@ export default function CreateResearcherModal({
 
           <div>
             <label className="text-sm text-gray-600 block mb-1">
-              {language === 'fr' ? 'Rôle' : 'Role'}
+              {t('role', language)}
             </label>
             <select
               name="role"
@@ -184,10 +167,10 @@ export default function CreateResearcherModal({
               className="w-full border rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-blue-500"
             >
               <option value="researcher">
-                {language === 'fr' ? 'Chercheur' : 'Researcher'}
+                {t('researcher', language)}
               </option>
               <option value="admin">
-                {language === 'fr' ? 'Administrateur' : 'Admin'}
+                {t('administrator', language)}
               </option>
             </select>
           </div>
@@ -212,7 +195,7 @@ export default function CreateResearcherModal({
             }`}
           >
             {loading
-              ? (language === 'fr' ? 'Création...' : 'Creating...')
+              ? t('creating', language)
               : t('create', language)}
           </button>
         </div>

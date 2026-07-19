@@ -6,8 +6,8 @@ import toast from 'react-hot-toast';
 import { API_BASE_URL } from '@/lib/api';
 
 type Subscription = {
-  id: number;
-  profile_id: number;
+  id: string | number;
+  profile_id: string | number
   start_date: string;
   end_date: string;
   type: string;
